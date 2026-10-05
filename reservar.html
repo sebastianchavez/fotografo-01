@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reservar sesión · Lumière</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { gold: '#d4a574', elev: '#15151a', soft: '#1f1f25', mut: '#9a9a9a' },
+          fontFamily: { display: ['"Playfair Display"', 'Georgia', 'serif'] }
+        }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+
+<div id="navbar-slot"></div>
+
+<!-- HEADER -->
+<section style="padding:5rem 0 2rem;background:linear-gradient(180deg,#0a0a0d 0%,#0b0b0c 100%);">
+  <div class="container-narrow" style="text-align:center;">
+    <span style="color:var(--gold);font-size:0.85rem;letter-spacing:0.15em;text-transform:uppercase;font-weight:500;">Reserva</span>
+    <h1 class="font-display" style="font-size:clamp(2rem,4vw,3rem);color:var(--hi);margin:0.8rem 0;font-weight:500;">Agenda tu sesión</h1>
+    <p style="color:var(--mut);font-size:1rem;">4 pasos rápidos para confirmar tu reserva</p>
+  </div>
+</section>
+
+<!-- STEPPER -->
+<section style="background:var(--elev);padding:1.25rem 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);">
+  <div class="container-narrow">
+    <div id="stepper" style="display:flex;align-items:center;gap:0.5rem;max-width:720px;margin:0 auto;"></div>
+  </div>
+</section>
+
+<section style="padding:2.5rem 0 5rem;">
+  <div class="container-narrow" style="display:grid;grid-template-columns:1fr 320px;gap:2.5rem;align-items:start;">
+
+    <!-- STEPS CONTENT -->
+    <div style="background:var(--elev);border:1px solid var(--line);border-radius:1rem;padding:2rem;min-height:480px;">
+      <div id="stepContent"></div>
+
+      <!-- Nav buttons -->
+      <div style="display:flex;justify-content:space-between;margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--line);">
+        <button id="prevBtn" class="btn-secondary" style="visibility:hidden;">← Anterior</button>
+        <button id="nextBtn" class="btn-primary">Siguiente →</button>
+      </div>
+    </div>
+
+    <!-- SUMMARY STICKY -->
+    <aside style="background:var(--elev);border:1px solid var(--line);border-radius:1rem;padding:1.75rem;position:sticky;top:5rem;">
+      <h3 style="color:var(--gold);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:1rem;">Tu reserva</h3>
+      <div id="summary" style="display:flex;flex-direction:column;gap:0.85rem;font-size:0.9rem;"></div>
+      <div style="border-top:1px solid var(--line);margin-top:1.5rem;padding-top:1.5rem;">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;">
+          <span style="color:var(--mut);font-size:0.9rem;">Total estimado</span>
+          <span id="summaryTotal" style="font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--gold);font-weight:600;">$0</span>
+        </div>
+        <p style="color:var(--mut);font-size:0.75rem;margin-top:0.4rem;line-height:1.4;">Se requiere seña del 50% para confirmar.</p>
+      </div>
+    </aside>
+
+  </div>
+</section>
+
+<div id="footer-slot"></div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/storage.js"></script>
+<script src="assets/js/ui.js"></script>
+<script src="assets/js/auth.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    if (!window.PHOTO_AUTH.isLogged()) {
+      window.PHOTO_AUTH.requireAuth('reservar.html');
+      return;
+    }
+
+    const { servicios: servs, paquetes } = window.PHOTO_DATA;
+    const { escapeHTML, formatMoney, toast, todayISO } = window.PHOTO_UI;
+
+    const STATE = {
+      step: 1,
+      servicioId: new URLSearchParams(location.search).get('servicio') || '',
+      paqueteIdx: new URLSearchParams(location.search).get('paquete') !== null ? parseInt(new URLSearchParams(location.search).get('paquete')) : null,
+      fecha: '',
+      hora: '',
+      lugar: '',
+      direccion: '',
+      notas: '',
+      telefono: ''
+    };
+
+    const STEP_LABELS = ['Servicio', 'Fecha y hora', 'Datos', 'Revisión'];
+
+    function renderStepper() {
+      const html = STEP_LABELS.map((label, i) => {
+        const n = i + 1;
+        const active = STATE.step === n;
+        const done = STATE.step > n;
+        return `
+          <div style="display:flex;align-items:center;flex:${i < STEP_LABELS.length-1 ? '1' : 'none'};">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:0.4rem;">
+              <div class="step-circle ${active ? 'active' : ''} ${done ? 'done' : ''}">${done ? '✓' : n}</div>
+            </div>
+            <div style="margin-left:0.5rem;margin-right:0.5rem;color:${active ? 'var(--hi)' : 'var(--mut)'};font-size:0.85rem;font-weight:${active ? '600' : '400'};display:none;" class="hidden md:block">${label}</div>
+            ${i < STEP_LABELS.length-1 ? `<div class="step-line ${done ? 'done' : ''}" style="margin:0 0.5rem;flex:1;"></div>` : ''}
+          </div>
+        `;
+      }).join('');
+      document.getElementById('stepper').innerHTML = html;
+    }
+
+    function renderStep() {
+      const cont = document.getElementById('stepContent');
+      document.getElementById('prevBtn').style.visibility = STATE.step === 1 ? 'hidden' : 'visible';
+      document.getElementById('nextBtn').textContent = STATE.step === 4 ? 'Crear reserva' : 'Siguiente →';
+
+      if (STATE.step === 1) renderStep1(cont);
+      else if (STATE.step === 2) renderStep2(cont);
+      else if (STATE.step === 3) renderStep3(cont);
+      else if (STATE.step === 4) renderStep4(cont);
+      renderSummary();
+    }
+
+    // STEP 1: Servicio + Paquete
+    function renderStep1(cont) {
+      cont.innerHTML = `
+        <h2 class="font-display" style="font-size:1.5rem;color:var(--hi);margin-bottom:0.5rem;font-weight:500;">Selecciona el servicio</h2>
+        <p style="color:var(--mut);font-size:0.95rem;margin-bottom:1.5rem;">Elige qué tipo de sesión necesitas.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0.85rem;" id="serviciosList"></div>
+        <div id="paquetesWrap" style="display:none;margin-top:2rem;"></div>
+      `;
+
+      const listEl = cont.querySelector('#serviciosList');
+      listEl.innerHTML = servs.map(s => `
+        <button class="serv-btn" data-id="${s.id}" style="text-align:left;padding:1rem;background:var(--base);border:1.5px solid ${STATE.servicioId === s.id ? 'var(--gold)' : 'var(--line)'};border-radius:0.6rem;cursor:pointer;transition:all 0.2s;color:var(--hi);">
+          <div style="display:flex;align-items:center;gap:0.85rem;">
+            <img src="${s.img}" alt="${escapeHTML(s.nombre)}" style="width:54px;height:54px;border-radius:0.4rem;object-fit:cover;" />
+            <div style="flex:1;min-width:0;">
+              <div style="font-weight:600;font-size:0.95rem;">${escapeHTML(s.nombre)}</div>
+              <div style="color:var(--gold);font-size:0.8rem;">Desde $${s.desde}</div>
+            </div>
+            ${STATE.servicioId === s.id ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>' : ''}
+          </div>
+        </button>
+      `).join('');
+
+      listEl.querySelectorAll('.serv-btn').forEach(b => {
+        b.addEventListener('click', () => {
+          STATE.servicioId = b.dataset.id;
+          STATE.paqueteIdx = null;
+          renderStep1(cont);
+        });
+      });
+
+      if (STATE.servicioId) {
+        const pkgs = paquetes[STATE.servicioId] || [];
+        const wrap = cont.querySelector('#paquetesWrap');
+        wrap.style.display = 'block';
+        wrap.innerHTML = `
+          <h3 style="color:var(--gold);font-size:0.8rem;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.85rem;">Elige un paquete</h3>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0.85rem;" id="paquetesList">
+            ${pkgs.map((p, i) => `
+              <button class="pkg-btn" data-idx="${i}" style="text-align:left;padding:1.25rem;background:var(--base);border:1.5px solid ${STATE.paqueteIdx === i ? 'var(--gold)' : 'var(--line)'};border-radius:0.6rem;cursor:pointer;transition:all 0.2s;color:var(--hi);position:relative;${p.featured ? 'border-color:var(--gold);' : ''}">
+                ${p.featured ? '<span style="position:absolute;top:-0.5rem;left:0.75rem;background:var(--gold);color:var(--base);font-size:0.65rem;padding:0.2rem 0.5rem;border-radius:9999px;font-weight:700;text-transform:uppercase;">Popular</span>' : ''}
+                <div style="font-weight:600;font-size:1rem;margin-bottom:0.25rem;">${escapeHTML(p.nombre)}</div>
+                <div style="color:var(--gold);font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:600;margin-bottom:0.5rem;">$${p.precio}</div>
+                <ul style="list-style:none;padding:0;margin:0;font-size:0.8rem;color:var(--mut);">
+                  ${p.items.slice(0,3).map(it => `<li style="padding:0.15rem 0;">• ${escapeHTML(it)}</li>`).join('')}
+                </ul>
+              </button>
+            `).join('')}
+          </div>
+        `;
+        wrap.querySelectorAll('.pkg-btn').forEach(b => {
+          b.addEventListener('click', () => {
+            STATE.paqueteIdx = parseInt(b.dataset.idx);
+            renderStep1(cont);
+          });
+        });
+      }
+    }
+
+    // STEP 2: Fecha + Hora
+    function renderStep2(cont) {
+      const today = new Date();
+      const month = today.getMonth();
+      const year = today.getFullYear();
+      cont.innerHTML = `
+        <h2 class="font-display" style="font-size:1.5rem;color:var(--hi);margin-bottom:0.5rem;font-weight:500;">Elige fecha y hora</h2>
+        <p style="color:var(--mut);font-size:0.95rem;margin-bottom:1.5rem;">Selecciona un día disponible en el calendario.</p>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.75rem;align-items:start;" id="calWrap">
+          <!-- CAL -->
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+              <button id="prevMonth" style="background:none;border:none;color:var(--hi);padding:0.4rem;cursor:pointer;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+              </button>
+              <span id="calTitle" style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--hi);font-weight:500;"></span>
+              <button id="nextMonth" style="background:none;border:none;color:var(--hi);padding:0.4rem;cursor:pointer;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+              </button>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:0.25rem;margin-bottom:0.5rem;">
+              ${['L','M','M','J','V','S','D'].map(d => `<div style="text-align:center;color:var(--mut);font-size:0.75rem;font-weight:600;padding:0.5rem 0;">${d}</div>`).join('')}
+            </div>
+            <div id="calDays" style="display:grid;grid-template-columns:repeat(7,1fr);gap:0.25rem;"></div>
+          </div>
+
+          <!-- HORAS -->
+          <div>
+            <h3 style="color:var(--gold);font-size:0.8rem;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.85rem;">Horarios disponibles</h3>
+            <div id="horasWrap" style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.5rem;">
+              ${!STATE.fecha ? '<p style="color:var(--mut);font-size:0.85rem;grid-column:1/-1;padding:2rem 0;text-align:center;">Selecciona una fecha para ver horarios</p>' : ''}
+            </div>
+          </div>
+        </div>
+      `;
+
+      let curMonth = STATE.fecha ? new Date(STATE.fecha + 'T00:00:00').getMonth() : today.getMonth();
+      let curYear = STATE.fecha ? new Date(STATE.fecha + 'T00:00:00').getFullYear() : today.getFullYear();
+
+      function renderCal() {
+        const title = new Date(curYear, curMonth, 1).toLocaleDateString('es-CL', { month: 'long', year: 'numeric' });
+        document.getElementById('calTitle').textContent = title.charAt(0).toUpperCase() + title.slice(1);
+        const days = document.getElementById('calDays');
+        const first = new Date(curYear, curMonth, 1);
+        const last = new Date(curYear, curMonth + 1, 0);
+        const startDay = (first.getDay() + 6) % 7; // lunes=0
+        const todayD = new Date(); todayD.setHours(0,0,0,0);
+
+        let html = '';
+        for (let i = 0; i < startDay; i++) html += '<div></div>';
+        for (let d = 1; d <= last.getDate(); d++) {
+          const date = new Date(curYear, curMonth, d);
+          const iso = date.toISOString().slice(0,10);
+          const isPast = date < todayD;
+          const isSunday = date.getDay() === 0;
+          const isDisabled = isPast || isSunday;
+          const isSelected = STATE.fecha === iso;
+          const isToday = iso === todayISO();
+          let cls = 'cal-day';
+          if (isDisabled) cls += ' disabled';
+          if (isToday) cls += ' today';
+          if (isSelected) cls += ' selected';
+          html += `<button class="${cls}" data-iso="${iso}" ${isDisabled ? 'disabled' : ''}>${d}</button>`;
+        }
+        days.innerHTML = html;
+        days.querySelectorAll('.cal-day:not(.disabled)').forEach(b => {
+          b.addEventListener('click', () => {
+            STATE.fecha = b.dataset.iso;
+            STATE.hora = '';
+            renderCal();
+            renderHoras();
+          });
+        });
+      }
+
+      function renderHoras() {
+        const wrap = document.getElementById('horasWrap');
+        if (!STATE.fecha) {
+          wrap.innerHTML = '<p style="color:var(--mut);font-size:0.85rem;grid-column:1/-1;padding:2rem 0;text-align:center;">Selecciona una fecha para ver horarios</p>';
+          return;
+        }
+        // Deshabilitar domingo completo
+        const day = new Date(STATE.fecha + 'T00:00:00').getDay();
+        if (day === 0) {
+          wrap.innerHTML = '<p style="color:var(--mut);font-size:0.85rem;grid-column:1/-1;padding:2rem 0;text-align:center;">No atendemos domingos.</p>';
+          return;
+        }
+        const isSat = day === 6;
+        const horas = isSat
+          ? ['10:00','11:00','12:00']
+          : ['09:00','10:00','11:00','12:00','15:00','16:00','17:00','18:00'];
+        // Simular horas ocupadas: aleatorio según fecha
+        const seed = STATE.fecha.split('-').join('') | 0;
+        wrap.innerHTML = horas.map((h, i) => {
+          const ocupado = (seed + i) % 4 === 0;
+          const selected = STATE.hora === h;
+          return `<button class="time-slot ${ocupado ? 'disabled' : ''} ${selected ? 'selected' : ''}" data-h="${h}" ${ocupado ? 'disabled' : ''}>${h}</button>`;
+        }).join('');
+        wrap.querySelectorAll('.time-slot:not(.disabled)').forEach(b => {
+          b.addEventListener('click', () => {
+            STATE.hora = b.dataset.h;
+            renderHoras();
+          });
+        });
+      }
+
+      document.getElementById('prevMonth').addEventListener('click', () => {
+        if (curMonth === today.getMonth() && curYear === today.getFullYear()) return;
+        curMonth--;
+        if (curMonth < 0) { curMonth = 11; curYear--; }
+        renderCal();
+      });
+      document.getElementById('nextMonth').addEventListener('click', () => {
+        curMonth++;
+        if (curMonth > 11) { curMonth = 0; curYear++; }
+        renderCal();
+      });
+
+      renderCal();
+      renderHoras();
+    }
+
+    // STEP 3: Datos
+    function renderStep3(cont) {
+      const sess = window.PHOTO_AUTH.session();
+      cont.innerHTML = `
+        <h2 class="font-display" style="font-size:1.5rem;color:var(--hi);margin-bottom:0.5rem;font-weight:500;">Detalles de la sesión</h2>
+        <p style="color:var(--mut);font-size:0.95rem;margin-bottom:1.5rem;">Cuéntanos dónde y cómo será.</p>
+
+        <div style="margin-bottom:1rem;">
+          <label class="label">Lugar *</label>
+          <select name="lugar" class="input" required>
+            <option value="">Selecciona...</option>
+            <option value="estudio" ${STATE.lugar === 'estudio' ? 'selected' : ''}>En nuestro estudio</option>
+            <option value="exterior" ${STATE.lugar === 'exterior' ? 'selected' : ''}>En exteriores</option>
+            <option value="domicilio" ${STATE.lugar === 'domicilio' ? 'selected' : ''}>En tu domicilio</option>
+            <option value="oficina" ${STATE.lugar === 'oficina' ? 'selected' : ''}>En tu oficina</option>
+            <option value="otro" ${STATE.lugar === 'otro' ? 'selected' : ''}>Otro (especificar)</option>
+          </select>
+          <p class="error-msg" data-error="lugar"></p>
+        </div>
+
+        <div style="margin-bottom:1rem;">
+          <label class="label">Dirección o ubicación</label>
+          <input type="text" name="direccion" class="input" placeholder="Calle, ciudad, referencias..." value="${escapeHTML(STATE.direccion)}" />
+        </div>
+
+        <div style="margin-bottom:1rem;">
+          <label class="label">Teléfono de contacto</label>
+          <input type="tel" name="telefono" class="input" placeholder="+56 9 1234 5678" value="${escapeHTML(STATE.telefono || sess.email)}" />
+          <p class="error-msg" data-error="telefono"></p>
+        </div>
+
+        <div style="margin-bottom:0.5rem;">
+          <label class="label">Notas o detalles adicionales</label>
+          <textarea name="notas" class="input" rows="4" placeholder="Cuéntanos sobre la sesión: estilo deseado, ideas, requisitos especiales..." style="resize:vertical;min-height:100px;">${escapeHTML(STATE.notas)}</textarea>
+        </div>
+      `;
+
+      cont.querySelector('[name="lugar"]').addEventListener('change', e => STATE.lugar = e.target.value);
+      cont.querySelector('[name="direccion"]').addEventListener('input', e => STATE.direccion = e.target.value);
+      cont.querySelector('[name="telefono"]').addEventListener('input', e => STATE.telefono = e.target.value);
+      cont.querySelector('[name="notas"]').addEventListener('input', e => STATE.notas = e.target.value);
+    }
+
+    // STEP 4: Revisión
+    function renderStep4(cont) {
+      const serv = servs.find(s => s.id === STATE.servicioId);
+      const pkg = paquetes[STATE.servicioId]?.[STATE.paqueteIdx];
+      cont.innerHTML = `
+        <h2 class="font-display" style="font-size:1.5rem;color:var(--hi);margin-bottom:0.5rem;font-weight:500;">Revisa tu reserva</h2>
+        <p style="color:var(--mut);font-size:0.95rem;margin-bottom:1.5rem;">Confirma que todo esté correcto antes de continuar al pago.</p>
+
+        <div style="background:var(--base);border:1px solid var(--line);border-radius:0.8rem;overflow:hidden;">
+          <div style="display:grid;grid-template-columns:auto 1fr;gap:1.25rem;padding:1.5rem;align-items:center;border-bottom:1px solid var(--line);">
+            <img src="${serv.img}" alt="${escapeHTML(serv.nombre)}" style="width:90px;height:90px;border-radius:0.5rem;object-fit:cover;" />
+            <div>
+              <div style="color:var(--mut);font-size:0.8rem;text-transform:uppercase;letter-spacing:0.08em;">Servicio</div>
+              <div style="font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--hi);margin-top:0.3rem;font-weight:500;">${escapeHTML(serv.nombre)}</div>
+              <div style="color:var(--gold);font-size:0.9rem;margin-top:0.3rem;">${escapeHTML(pkg.nombre)} · $${pkg.precio}</div>
+            </div>
+          </div>
+          <div style="padding:1.5rem;display:flex;flex-direction:column;gap:0.85rem;">
+            <div style="display:flex;justify-content:space-between;">
+              <span style="color:var(--mut);">Fecha</span>
+              <strong style="color:var(--hi);">${STATE.fecha.split('-').reverse().join('/')}</strong>
+            </div>
+            <div style="display:flex;justify-content:space-between;">
+              <span style="color:var(--mut);">Hora</span>
+              <strong style="color:var(--hi);">${STATE.hora} hrs</strong>
+            </div>
+            <div style="display:flex;justify-content:space-between;">
+              <span style="color:var(--mut);">Lugar</span>
+              <strong style="color:var(--hi);">${labelLugar(STATE.lugar)}</strong>
+            </div>
+            ${STATE.direccion ? `<div style="display:flex;justify-content:space-between;"><span style="color:var(--mut);">Dirección</span><strong style="color:var(--hi);">${escapeHTML(STATE.direccion)}</strong></div>` : ''}
+            ${STATE.notas ? `<div style="padding-top:0.5rem;border-top:1px solid var(--line);"><div style="color:var(--mut);margin-bottom:0.4rem;">Notas</div><div style="color:var(--hi);font-size:0.95rem;">${escapeHTML(STATE.notas)}</div></div>` : ''}
+          </div>
+        </div>
+
+        <div style="margin-top:1.5rem;padding:1.25rem;background:rgba(212,165,116,0.06);border:1px solid rgba(212,165,116,0.25);border-radius:0.6rem;display:flex;gap:0.75rem;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" style="flex-shrink:0;"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+          <div>
+            <div style="color:var(--hi);font-size:0.9rem;font-weight:500;margin-bottom:0.3rem;">Seña requerida: $${Math.round(pkg.precio * 0.5)}</div>
+            <div style="color:var(--mut);font-size:0.85rem;line-height:1.5;">Para confirmar tu reserva se requiere el 50% como seña. Podrás pagar el resto el día de la sesión.</div>
+          </div>
+        </div>
+      `;
+    }
+
+    function labelLugar(l) {
+      return ({estudio:'En nuestro estudio', exterior:'En exteriores', oficina:'En tu oficina', domicilio:'En tu domicilio', otro:'Otro'})[l] || '—';
+    }
+
+    function renderSummary() {
+      const serv = servs.find(s => s.id === STATE.servicioId);
+      const pkg = paquetes[STATE.servicioId]?.[STATE.paqueteIdx];
+      const sess = window.PHOTO_AUTH.session();
+      const sumEl = document.getElementById('summary');
+      const items = [
+        `<div style="display:flex;justify-content:space-between;color:var(--hi);"><span style="color:var(--mut);">Cliente</span><strong>${escapeHTML(sess?.nombre || '—')}</strong></div>`,
+        serv ? `<div style="display:flex;justify-content:space-between;color:var(--hi);"><span style="color:var(--mut);">Servicio</span><strong>${escapeHTML(serv.nombre)}</strong></div>` : '',
+        pkg ? `<div style="display:flex;justify-content:space-between;color:var(--hi);"><span style="color:var(--mut);">Paquete</span><strong>${escapeHTML(pkg.nombre)}</strong></div>` : '',
+        STATE.fecha ? `<div style="display:flex;justify-content:space-between;color:var(--hi);"><span style="color:var(--mut);">Fecha</span><strong>${STATE.fecha.split('-').reverse().join('/')}</strong></div>` : '',
+        STATE.hora ? `<div style="display:flex;justify-content:space-between;color:var(--hi);"><span style="color:var(--mut);">Hora</span><strong>${STATE.hora}</strong></div>` : ''
+      ].filter(Boolean);
+      sumEl.innerHTML = items.length ? items.join('') : '<p style="color:var(--mut);font-size:0.85rem;text-align:center;padding:1rem 0;">Completa los pasos para ver el resumen</p>';
+      document.getElementById('summaryTotal').textContent = pkg ? '$' + pkg.precio : '$0';
+    }
+
+    function validateStep() {
+      if (STATE.step === 1) {
+        if (!STATE.servicioId) { toast('Selecciona un servicio', 'error'); return false; }
+        if (STATE.paqueteIdx === null) { toast('Selecciona un paquete', 'error'); return false; }
+      }
+      if (STATE.step === 2) {
+        if (!STATE.fecha) { toast('Selecciona una fecha', 'error'); return false; }
+        if (!STATE.hora) { toast('Selecciona una hora', 'error'); return false; }
+      }
+      if (STATE.step === 3) {
+        if (!STATE.lugar) {
+          const sel = document.querySelector('[name="lugar"]');
+          sel.classList.add('input-error');
+          const err = document.querySelector('[data-error="lugar"]');
+          if (err) err.textContent = 'Selecciona un lugar';
+          toast('Selecciona un lugar', 'error');
+          return false;
+        }
+      }
+      return true;
+    }
+
+    document.getElementById('prevBtn').addEventListener('click', () => {
+      if (STATE.step > 1) {
+        STATE.step--;
+        renderStepper();
+        renderStep();
+      }
+    });
+
+    document.getElementById('nextBtn').addEventListener('click', () => {
+      if (!validateStep()) return;
+
+      if (STATE.step < 4) {
+        STATE.step++;
+        renderStepper();
+        renderStep();
+        document.querySelector('main, body, html').scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        // Crear reserva
+        const serv = servs.find(s => s.id === STATE.servicioId);
+        const pkg = paquetes[STATE.servicioId][STATE.paqueteIdx];
+        const sess = window.PHOTO_AUTH.session();
+        try {
+          const r = window.PHOTO_STORE.Reservas.create({
+            userId: sess.id,
+            servicioId: STATE.servicioId,
+            servicio: serv.nombre,
+            paquete: pkg.nombre,
+            fecha: STATE.fecha,
+            hora: STATE.hora,
+            duracion: STATE.lugar === 'estudio' ? '2h' : '',
+            lugar: labelLugar(STATE.lugar),
+            direccion: STATE.direccion,
+            precio: pkg.precio,
+            notas: STATE.notas,
+            contacto: { email: sess.email, telefono: STATE.telefono }
+          });
+          toast('Reserva creada. Continúa al pago.', 'success');
+          setTimeout(() => location.href = 'confirmacion.html?id=' + r.id, 700);
+        } catch (err) {
+          toast(err.message, 'error');
+        }
+      }
+    });
+
+    renderStepper();
+    renderStep();
+  });
+</script>
+
+</body>
+</html>

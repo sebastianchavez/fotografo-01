@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Galería · Lumière</title>
+  <meta name="description" content="Portafolio de fotografía: bodas, retratos, eventos, productos, familias y maternidad." />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { gold: '#d4a574', elev: '#15151a', soft: '#1f1f25', mut: '#9a9a9a' },
+          fontFamily: { display: ['"Playfair Display"', 'Georgia', 'serif'] }
+        }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+
+<div id="navbar-slot"></div>
+
+<!-- HEADER -->
+<section style="padding:6rem 0 3rem;background:linear-gradient(180deg,#0a0a0d 0%,#0b0b0c 100%);position:relative;">
+  <div style="position:absolute;inset:0;background-image:radial-gradient(circle at 80% 20%,rgba(212,165,116,0.08) 0%,transparent 40%);"></div>
+  <div class="container-narrow" style="position:relative;text-align:center;">
+    <span style="color:var(--gold);font-size:0.85rem;letter-spacing:0.15em;text-transform:uppercase;font-weight:500;">Portafolio</span>
+    <h1 class="font-display" style="font-size:clamp(2.5rem,5vw,4rem);color:var(--hi);margin:1rem 0;font-weight:500;">Galería</h1>
+    <p style="color:var(--mut);font-size:1.05rem;max-width:600px;margin:0 auto;line-height:1.7;">Una selección curada de nuestro trabajo. Cada imagen cuenta una historia.</p>
+  </div>
+</section>
+
+<!-- FILTROS -->
+<section style="padding:1.5rem 0;background:var(--elev);border-top:1px solid var(--line);border-bottom:1px solid var(--line);position:sticky;top:64px;z-index:40;backdrop-filter:blur(8px);">
+  <div class="container-narrow" id="filtros" style="display:flex;flex-wrap:wrap;justify-content:center;gap:0.5rem;"></div>
+</section>
+
+<!-- GRID -->
+<section class="section" style="padding-top:2.5rem;">
+  <div class="container-narrow">
+    <div id="galeriaGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;"></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="background:linear-gradient(135deg,#1a1410 0%,#0b0b0c 100%);padding:4rem 0;text-align:center;">
+  <div class="container-narrow reveal">
+    <h2 class="font-display" style="font-size:clamp(1.8rem,4vw,2.8rem);color:var(--hi);font-weight:500;margin-bottom:1rem;">¿Te gustó lo que ves?</h2>
+    <p style="color:var(--mut);margin-bottom:2rem;">Reserva tu sesión y creemos algo único para ti.</p>
+    <a href="reservar.html" class="btn-primary" style="padding:0.9rem 2rem;font-size:1rem;">Reservar ahora</a>
+  </div>
+</section>
+
+<div id="footer-slot"></div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/storage.js"></script>
+<script src="assets/js/ui.js"></script>
+<script src="assets/js/auth.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const { galeria, servicios } = window.PHOTO_DATA;
+    const { escapeHTML, modal } = window.PHOTO_UI;
+
+    const cats = [{ id: 'todas', nombre: 'Todas' }, ...servicios];
+    let activeCat = 'todas';
+
+    const filtEl = document.getElementById('filtros');
+    const gridEl = document.getElementById('galeriaGrid');
+
+    function renderFiltros() {
+      filtEl.innerHTML = cats.map(c => `
+        <button data-cat="${c.id}" class="filt-btn" style="padding:0.5rem 1.2rem;border-radius:9999px;font-size:0.85rem;font-weight:500;cursor:pointer;transition:all 0.2s;${
+          activeCat === c.id
+            ? 'background:var(--gold);color:var(--base);border:1px solid var(--gold);'
+            : 'background:var(--base);color:var(--mut);border:1px solid var(--line);'
+        }">${escapeHTML(c.nombre)}</button>
+      `).join('');
+      filtEl.querySelectorAll('.filt-btn').forEach(b => {
+        b.addEventListener('click', () => {
+          activeCat = b.dataset.cat;
+          renderFiltros();
+          renderGrid();
+        });
+      });
+    }
+
+    function renderGrid() {
+      const items = activeCat === 'todas' ? galeria : galeria.filter(g => g.cat === activeCat);
+      if (!items.length) {
+        gridEl.innerHTML = '<p style="color:var(--mut);text-align:center;grid-column:1/-1;padding:3rem 0;">No hay imágenes en esta categoría.</p>';
+        return;
+      }
+      gridEl.innerHTML = items.map((g, i) => `
+        <button class="gal-item reveal" data-idx="${i}" style="aspect-ratio:1;overflow:hidden;border-radius:0.6rem;cursor:pointer;background:var(--elev);border:1px solid var(--line);padding:0;position:relative;">
+          <img src="${g.src}" alt="Galería ${g.cat}" loading="lazy" class="img-cover" style="transition:transform 0.6s ease;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'" />
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(11,11,12,0.85) 100%);display:flex;align-items:flex-end;justify-content:flex-start;padding:1rem;opacity:0;transition:opacity 0.3s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0'" class="overlay">
+            <span style="color:var(--gold);font-size:0.8rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;">${escapeHTML(g.cat)}</span>
+          </div>
+        </button>
+      `).join('');
+
+      gridEl.querySelectorAll('.gal-item').forEach(btn => {
+        btn.addEventListener('click', () => openLightbox(items, parseInt(btn.dataset.idx)));
+      });
+      window.PHOTO_UI.initReveal();
+    }
+
+    function openLightbox(items, idx) {
+      let current = idx;
+      const wrap = document.createElement('div');
+      wrap.className = 'lightbox-backdrop';
+
+      function render() {
+        const it = items[current];
+        wrap.innerHTML = `
+          <button id="lbClose" style="position:absolute;top:1.5rem;right:1.5rem;background:rgba(0,0,0,0.6);border:1px solid var(--line);color:var(--hi);width:42px;height:42px;border-radius:50%;cursor:pointer;font-size:1.3rem;display:flex;align-items:center;justify-content:center;">×</button>
+          ${items.length > 1 ? `
+          <button id="lbPrev" style="position:absolute;left:1.5rem;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.6);border:1px solid var(--line);color:var(--hi);width:48px;height:48px;border-radius:50%;cursor:pointer;font-size:1.5rem;">‹</button>
+          <button id="lbNext" style="position:absolute;right:1.5rem;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.6);border:1px solid var(--line);color:var(--hi);width:48px;height:48px;border-radius:50%;cursor:pointer;font-size:1.5rem;">›</button>
+          ` : ''}
+          <img src="${it.src}" alt="" class="lightbox-img" />
+          <div style="position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);color:var(--mut);font-size:0.9rem;background:rgba(0,0,0,0.6);padding:0.4rem 1rem;border-radius:9999px;">${current + 1} / ${items.length}</div>
+        `;
+        wrap.querySelector('#lbClose').addEventListener('click', close);
+        const prev = wrap.querySelector('#lbPrev');
+        const next = wrap.querySelector('#lbNext');
+        if (prev) prev.addEventListener('click', () => { current = (current - 1 + items.length) % items.length; render(); });
+        if (next) next.addEventListener('click', () => { current = (current + 1) % items.length; render(); });
+      }
+
+      function close() {
+        wrap.remove();
+        document.removeEventListener('keydown', onKey);
+      }
+      function onKey(e) {
+        if (e.key === 'Escape') close();
+        else if (e.key === 'ArrowLeft' && items.length > 1) { current = (current - 1 + items.length) % items.length; render(); }
+        else if (e.key === 'ArrowRight' && items.length > 1) { current = (current + 1) % items.length; render(); }
+      }
+      wrap.addEventListener('click', e => { if (e.target === wrap) close(); });
+      document.addEventListener('keydown', onKey);
+      document.body.appendChild(wrap);
+      render();
+    }
+
+    renderFiltros();
+    renderGrid();
+
+    // Activar hover en overlays
+    document.head.insertAdjacentHTML('beforeend', '<style>.gal-item:hover .overlay{opacity:1!important;}</style>');
+  });
+</script>
+
+</body>
+</html>

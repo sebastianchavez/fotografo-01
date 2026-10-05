@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recuperar contraseña · Lumière</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { gold: '#d4a574', elev: '#15151a', soft: '#1f1f25', mut: '#9a9a9a' },
+          fontFamily: { display: ['"Playfair Display"', 'Georgia', 'serif'] }
+        }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <style>
+    body { background: linear-gradient(135deg,#0a0a0d 0%,#0b0b0c 100%); min-height:100vh; display:flex; flex-direction:column; }
+    .auth-shell { flex:1; display:flex; align-items:center; justify-content:center; padding:6rem 1.25rem 3rem; }
+    .auth-card { width:100%; max-width:480px; background:var(--elev); border:1px solid var(--line); border-radius:1rem; padding:2.5rem 2rem; }
+  </style>
+</head>
+<body>
+
+<div id="navbar-slot"></div>
+
+<div class="auth-shell">
+  <div class="auth-card animate-scale-in">
+
+    <!-- PASO 1: SOLICITAR -->
+    <div id="step1">
+      <div style="text-align:center;margin-bottom:2rem;">
+        <div style="width:60px;height:60px;background:rgba(212,165,116,0.1);border:1px solid rgba(212,165,116,0.3);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;margin-bottom:1rem;">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <h1 class="font-display" style="font-size:1.7rem;color:var(--hi);font-weight:500;">¿Olvidaste tu contraseña?</h1>
+        <p style="color:var(--mut);margin-top:0.5rem;font-size:0.95rem;line-height:1.6;">Te enviaremos un enlace para restablecerla a tu email.</p>
+      </div>
+
+      <form id="form1" novalidate>
+        <div style="margin-bottom:1.5rem;">
+          <label class="label">Email registrado</label>
+          <input type="email" name="email" class="input" placeholder="tu@email.com" required autocomplete="email" />
+          <p class="error-msg" data-error="email"></p>
+        </div>
+
+        <button type="submit" class="btn-primary" style="width:100%;justify-content:center;padding:0.85rem;">
+          Enviar enlace de recuperación
+        </button>
+      </form>
+
+      <p style="text-align:center;color:var(--mut);font-size:0.95rem;margin-top:1.5rem;">
+        <a href="login.html" style="color:var(--gold);font-weight:500;">← Volver al inicio de sesión</a>
+      </p>
+    </div>
+
+    <!-- PASO 2: CONFIRMACIÓN ENVÍO -->
+    <div id="step2" style="display:none;text-align:center;">
+      <div style="width:70px;height:70px;background:rgba(39,174,96,0.15);border:1px solid rgba(39,174,96,0.4);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;margin-bottom:1.5rem;">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#5fdb95" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+      </div>
+      <h1 class="font-display" style="font-size:1.7rem;color:var(--hi);font-weight:500;margin-bottom:0.75rem;">Revisa tu bandeja</h1>
+      <p style="color:var(--mut);font-size:0.95rem;line-height:1.6;margin-bottom:0.5rem;">Hemos enviado un enlace de recuperación a:</p>
+      <p style="color:var(--gold);font-weight:600;font-size:1.05rem;margin-bottom:1.5rem;" id="emailShown"></p>
+      <p style="color:var(--mut);font-size:0.9rem;line-height:1.6;margin-bottom:2rem;">Si no recibes el correo en los próximos minutos, revisa tu carpeta de spam o solicita uno nuevo.</p>
+
+      <button id="simularLink" class="btn-secondary" style="width:100%;justify-content:center;padding:0.85rem;margin-bottom:0.75rem;">
+        Simular click en el enlace
+      </button>
+      <button id="reenviar" class="btn-ghost" style="width:100%;">Reenviar correo</button>
+
+      <p style="text-align:center;color:var(--mut);font-size:0.95rem;margin-top:1.5rem;">
+        <a href="login.html" style="color:var(--gold);font-weight:500;">← Volver al inicio de sesión</a>
+      </p>
+    </div>
+
+    <!-- PASO 3: NUEVA CONTRASEÑA -->
+    <div id="step3" style="display:none;">
+      <div style="text-align:center;margin-bottom:2rem;">
+        <div style="width:60px;height:60px;background:rgba(212,165,116,0.1);border:1px solid rgba(212,165,116,0.3);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;margin-bottom:1rem;">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M12 1l3 6 6 1-4.5 4.5L18 19l-6-3-6 3 1.5-6.5L3 8l6-1z"/></svg>
+        </div>
+        <h1 class="font-display" style="font-size:1.7rem;color:var(--hi);font-weight:500;">Nueva contraseña</h1>
+        <p style="color:var(--mut);margin-top:0.5rem;font-size:0.95rem;">Crea una contraseña segura para <strong style="color:var(--hi);" id="emailShown2"></strong></p>
+      </div>
+
+      <form id="form3" novalidate>
+        <div style="margin-bottom:1rem;">
+          <label class="label">Nueva contraseña</label>
+          <input type="password" name="password" id="newpwd" class="input" placeholder="Mínimo 6 caracteres" required minlength="6" />
+          <p class="error-msg" data-error="password"></p>
+        </div>
+
+        <div style="margin-bottom:1.5rem;">
+          <label class="label">Confirmar contraseña</label>
+          <input type="password" name="confirmar" class="input" placeholder="Repite la contraseña" required />
+          <p class="error-msg" data-error="confirmar"></p>
+        </div>
+
+        <button type="submit" class="btn-primary" style="width:100%;justify-content:center;padding:0.85rem;">
+          Cambiar contraseña
+        </button>
+      </form>
+
+      <p style="text-align:center;color:var(--mut);font-size:0.95rem;margin-top:1.5rem;">
+        <a href="login.html" style="color:var(--gold);font-weight:500;">← Volver al inicio de sesión</a>
+      </p>
+    </div>
+
+  </div>
+</div>
+
+<div id="footer-slot"></div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/storage.js"></script>
+<script src="assets/js/ui.js"></script>
+<script src="assets/js/auth.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const { toast } = window.PHOTO_UI;
+    const { Users } = window.PHOTO_STORE;
+
+    let currentEmail = '';
+
+    const step1 = document.getElementById('step1');
+    const step2 = document.getElementById('step2');
+    const step3 = document.getElementById('step3');
+
+    // PASO 1
+    document.getElementById('form1').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(e.target));
+      e.target.querySelectorAll('[data-error]').forEach(p => p.textContent = '');
+      e.target.querySelector('.input').classList.remove('input-error');
+
+      if (!data.email || !/^\S+@\S+\.\S+$/.test(data.email)) {
+        e.target.querySelector('[data-error="email"]').textContent = 'Email inválido';
+        e.target.querySelector('.input').classList.add('input-error');
+        return;
+      }
+      const u = Users.findByEmail(data.email);
+      if (!u) {
+        e.target.querySelector('[data-error="email"]').textContent = 'No existe una cuenta con ese email';
+        e.target.querySelector('.input').classList.add('input-error');
+        return;
+      }
+
+      const btn = e.target.querySelector('button');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="loader"></span> Enviando...';
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.innerHTML = 'Enviar enlace de recuperación';
+        currentEmail = data.email;
+        document.getElementById('emailShown').textContent = data.email;
+        document.getElementById('emailShown2').textContent = data.email;
+        step1.style.display = 'none';
+        step2.style.display = 'block';
+      }, 1000);
+    });
+
+    // PASO 2 → PASO 3
+    document.getElementById('simularLink').addEventListener('click', () => {
+      step2.style.display = 'none';
+      step3.style.display = 'block';
+    });
+
+    document.getElementById('reenviar').addEventListener('click', () => {
+      toast('Correo reenviado a ' + currentEmail, 'info');
+    });
+
+    // PASO 3
+    document.getElementById('form3').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(e.target));
+      e.target.querySelectorAll('[data-error]').forEach(p => p.textContent = '');
+      e.target.querySelectorAll('.input').forEach(i => i.classList.remove('input-error'));
+
+      let valid = true;
+      if (!data.password || data.password.length < 6) {
+        e.target.querySelector('[data-error="password"]').textContent = 'Mínimo 6 caracteres';
+        e.target.querySelector('[name="password"]').classList.add('input-error');
+        valid = false;
+      }
+      if (data.password !== data.confirmar) {
+        e.target.querySelector('[data-error="confirmar"]').textContent = 'Las contraseñas no coinciden';
+        e.target.querySelector('[name="confirmar"]').classList.add('input-error');
+        valid = false;
+      }
+      if (!valid) return;
+
+      const btn = e.target.querySelector('button');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="loader"></span> Cambiando...';
+      setTimeout(() => {
+        try {
+          const u = Users.findByEmail(currentEmail);
+          Users.update(u.id, { password: data.password });
+          btn.innerHTML = 'Cambiar contraseña';
+          btn.disabled = false;
+          toast('Contraseña actualizada. Inicia sesión.', 'success', 4500);
+          setTimeout(() => location.href = 'login.html', 1000);
+        } catch (err) {
+          btn.disabled = false;
+          btn.innerHTML = 'Cambiar contraseña';
+          toast(err.message, 'error');
+        }
+      }, 1000);
+    });
+  });
+</script>
+
+</body>
+</html>

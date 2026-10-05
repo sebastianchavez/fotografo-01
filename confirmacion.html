@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reserva creada · Lumière</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { gold: '#d4a574', elev: '#15151a', soft: '#1f1f25', mut: '#9a9a9a' },
+          fontFamily: { display: ['"Playfair Display"', 'Georgia', 'serif'] }
+        }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+
+<div id="navbar-slot"></div>
+
+<section style="padding:5rem 0 3rem;">
+  <div class="container-narrow" style="max-width:760px;">
+    <div class="animate-fade-up" style="text-align:center;margin-bottom:3rem;">
+      <div style="width:80px;height:80px;background:rgba(212,165,116,0.1);border:1px solid rgba(212,165,116,0.4);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;margin-bottom:1.5rem;" class="animate-pulse-glow">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+      </div>
+      <h1 class="font-display" style="font-size:clamp(2.2rem,5vw,3.5rem);color:var(--hi);font-weight:500;margin-bottom:0.5rem;">¡Reserva creada!</h1>
+      <p style="color:var(--mut);font-size:1.05rem;">Tu solicitud ha sido registrada con éxito</p>
+    </div>
+
+    <div style="background:var(--elev);border:1px solid var(--line);border-radius:1rem;overflow:hidden;" class="animate-scale-in">
+      <div style="background:linear-gradient(135deg,#1a1410 0%,#15151a 100%);padding:1.5rem 2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;border-bottom:1px solid var(--line);">
+        <div>
+          <div style="color:var(--mut);font-size:0.8rem;text-transform:uppercase;letter-spacing:0.08em;">Código de reserva</div>
+          <div id="codigoReserva" style="font-family:monospace;font-size:1.4rem;color:var(--gold);font-weight:700;margin-top:0.3rem;">—</div>
+        </div>
+        <span id="estadoBadge"></span>
+      </div>
+
+      <div id="resumenBody" style="padding:2rem;display:flex;flex-direction:column;gap:1.25rem;"></div>
+
+      <div style="padding:1.5rem 2rem;background:rgba(212,165,116,0.05);border-top:1px solid rgba(212,165,116,0.2);">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;">
+          <span style="color:var(--mut);">Total</span>
+          <span id="total" style="font-family:'Playfair Display',serif;font-size:2rem;color:var(--gold);font-weight:600;">$0</span>
+        </div>
+        <p style="color:var(--mut);font-size:0.85rem;margin-top:0.4rem;">Seña requerida: <strong style="color:var(--hi);" id="senia">$0</strong></p>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-wrap:wrap;gap:1rem;margin-top:2rem;justify-content:center;">
+      <button id="btnPagar" class="btn-primary" style="padding:0.9rem 2rem;font-size:1rem;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg>
+        Ir al pago
+      </button>
+      <button id="btnCalendario" class="btn-secondary" style="padding:0.9rem 2rem;font-size:1rem;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        Agregar a calendario
+      </button>
+      <a href="perfil.html" class="btn-secondary" style="padding:0.9rem 2rem;font-size:1rem;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Ver mis reservas
+      </a>
+    </div>
+
+    <div style="margin-top:2.5rem;padding:1.25rem;background:var(--elev);border:1px solid var(--line);border-radius:0.6rem;display:flex;gap:1rem;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" style="flex-shrink:0;margin-top:2px;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      <div>
+        <strong style="color:var(--hi);font-size:0.95rem;">¿Necesitas modificar algo?</strong>
+        <p style="color:var(--mut);font-size:0.9rem;margin-top:0.3rem;">Puedes cancelar o ajustar tu reserva desde tu perfil, o contactarnos directamente.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div id="footer-slot"></div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/storage.js"></script>
+<script src="assets/js/ui.js"></script>
+<script src="assets/js/auth.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    if (!window.PHOTO_AUTH.isLogged()) {
+      location.href = 'login.html';
+      return;
+    }
+
+    const id = new URLSearchParams(location.search).get('id');
+    const reserva = id ? window.PHOTO_STORE.Reservas.byId(id) : null;
+
+    if (!reserva) {
+      document.querySelector('section').innerHTML = '<div class="container-narrow" style="text-align:center;padding:4rem 1rem;"><h2 style="color:var(--hi);">Reserva no encontrada</h2><p style="color:var(--mut);margin-top:1rem;">La reserva que intentas ver no existe.</p><a href="perfil.html" class="btn-primary" style="margin-top:2rem;">Ir a mi perfil</a></div>';
+      return;
+    }
+
+    const { escapeHTML, formatDate, toast } = window.PHOTO_UI;
+    const { formatMoney } = window.PHOTO_UI;
+
+    document.getElementById('codigoReserva').textContent = reserva.id;
+    document.getElementById('total').textContent = formatMoney(reserva.precio);
+    document.getElementById('senia').textContent = formatMoney(Math.round(reserva.precio * 0.5));
+
+    const estados = {
+      pendiente: { label: 'Pago pendiente', cls: 'badge-pendiente' },
+      confirmada: { label: 'Confirmada', cls: 'badge-confirmada' },
+      completada: { label: 'Completada', cls: 'badge-completada' },
+      cancelada: { label: 'Cancelada', cls: 'badge-cancelada' },
+      'no-show': { label: 'No se presentó', cls: 'badge-no-show' }
+    };
+    const e = estados[reserva.estado];
+    document.getElementById('estadoBadge').innerHTML = `<span class="badge ${e.cls}">${escapeHTML(e.label)}</span>`;
+
+    const resumenHtml = [
+      { l: 'Servicio', v: escapeHTML(reserva.servicio) },
+      { l: 'Paquete', v: escapeHTML(reserva.paquete || '—') },
+      { l: 'Fecha', v: formatDate(reserva.fecha) },
+      { l: 'Hora', v: escapeHTML(reserva.hora) + ' hrs' },
+      { l: 'Lugar', v: escapeHTML(reserva.lugar) },
+      reserva.direccion ? { l: 'Dirección', v: escapeHTML(reserva.direccion) } : null,
+      reserva.notas ? { l: 'Notas', v: escapeHTML(reserva.notas) } : null
+    ].filter(Boolean).map(r => `
+      <div style="display:flex;justify-content:space-between;gap:1rem;padding-bottom:0.85rem;border-bottom:1px solid var(--line);">
+        <span style="color:var(--mut);flex-shrink:0;">${r.l}</span>
+        <strong style="color:var(--hi);text-align:right;">${r.v}</strong>
+      </div>
+    `).join('');
+    document.getElementById('resumenBody').innerHTML = resumenHtml;
+
+    // Botones
+    const pagarBtn = document.getElementById('btnPagar');
+    if (reserva.estado === 'pendiente') {
+      pagarBtn.addEventListener('click', () => location.href = 'pago.html?id=' + reserva.id);
+    } else if (reserva.estado === 'confirmada') {
+      pagarBtn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> Reserva ya pagada';
+      pagarBtn.disabled = true;
+      pagarBtn.style.opacity = '0.6';
+    } else {
+      pagarBtn.style.display = 'none';
+    }
+
+    // Calendario .ics
+    document.getElementById('btnCalendario').addEventListener('click', () => {
+      const ics = generarICS(reserva);
+      const blob = new Blob([ics], { type: 'text/calendar' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = reserva.id + '.ics';
+      a.click();
+      URL.revokeObjectURL(url);
+      toast('Archivo descargado', 'success');
+    });
+
+    function generarICS(r) {
+      const fecha = r.fecha.replace(/-/g, '');
+      const hora = r.hora.replace(':', '') + '00';
+      const inicio = fecha + 'T' + hora;
+      const fin = fecha + 'T' + String(parseInt(hora.slice(0,2)) + 2).padStart(2,'0') + hora.slice(2);
+      return [
+        'BEGIN:VCALENDAR',
+        'VERSION:2.0',
+        'PRODID:-//Lumiere Studio//Reserva//ES',
+        'BEGIN:VEVENT',
+        'UID:' + r.id + '@lumiere.cl',
+        'DTSTAMP:' + new Date().toISOString().replace(/[-:]/g,'').slice(0,15) + 'Z',
+        'DTSTART:' + inicio,
+        'DTEND:' + fin,
+        'SUMMARY:Lumière Studio · ' + r.servicio,
+        'DESCRIPTION:Paquete ' + r.paquete + ' · ' + (r.notas || ''),
+        'LOCATION:' + (r.direccion || r.lugar),
+        'END:VEVENT',
+        'END:VCALENDAR'
+      ].join('\r\n');
+    }
+  });
+</script>
+
+</body>
+</html>

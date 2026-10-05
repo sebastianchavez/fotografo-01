@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pago confirmado · Lumière</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { gold: '#d4a574', elev: '#15151a', soft: '#1f1f25', mut: '#9a9a9a' },
+          fontFamily: { display: ['"Playfair Display"', 'Georgia', 'serif'] }
+        }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <style>
+    .check-circle {
+      width: 100px; height: 100px;
+      background: rgba(39,174,96,0.1);
+      border: 2px solid var(--success);
+      border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+    .check-circle::before, .check-circle::after {
+      content: ''; position: absolute;
+      border-radius: 50%;
+      border: 2px solid var(--success);
+      opacity: 0;
+      animation: pulseRing 2s ease-out infinite;
+    }
+    .check-circle::before { inset: -8px; animation-delay: 0.2s; }
+    .check-circle::after { inset: -16px; animation-delay: 0.5s; }
+    @keyframes pulseRing {
+      0% { opacity: 0.6; transform: scale(0.9); }
+      100% { opacity: 0; transform: scale(1.3); }
+    }
+  </style>
+</head>
+<body>
+
+<div id="navbar-slot"></div>
+
+<section style="padding:4rem 0 5rem;">
+  <div class="container-narrow" style="max-width:760px;">
+    <div class="animate-fade-up" style="text-align:center;margin-bottom:2.5rem;">
+      <div class="check-circle" style="margin-bottom:1.5rem;">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#27ae60" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 6L9 17l-5-5"/>
+        </svg>
+      </div>
+      <h1 class="font-display" style="font-size:clamp(2.2rem,5vw,3.5rem);color:var(--hi);font-weight:500;margin-bottom:0.5rem;">¡Pago confirmado!</h1>
+      <p style="color:var(--mut);font-size:1.05rem;line-height:1.6;">Tu reserva ha sido confirmada. Te enviamos los detalles a <strong style="color:var(--hi);" id="emailShown">tu email</strong></p>
+    </div>
+
+    <!-- RECIBO -->
+    <div style="background:var(--elev);border:1px solid var(--line);border-radius:1rem;overflow:hidden;" class="animate-scale-in">
+      <div style="background:linear-gradient(135deg,#0e1d12 0%,#15151a 100%);padding:1.75rem 2rem;border-bottom:1px solid var(--line);">
+        <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
+          <div>
+            <div style="color:var(--mut);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;">Recibo N°</div>
+            <div id="reciboId" style="font-family:monospace;font-size:1.2rem;color:var(--gold);font-weight:700;margin-top:0.3rem;">—</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="color:var(--mut);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;">Fecha de pago</div>
+            <div id="fechaPago" style="color:var(--hi);margin-top:0.3rem;">—</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="padding:2rem;">
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--hi);margin-bottom:1rem;font-weight:500;">Detalle del pago</h3>
+        <div id="detallePago" style="display:flex;flex-direction:column;gap:0.75rem;"></div>
+
+        <div style="border-top:1px solid var(--line);margin-top:1.5rem;padding-top:1.5rem;display:flex;flex-direction:column;gap:0.6rem;">
+          <div style="display:flex;justify-content:space-between;"><span style="color:var(--mut);">Subtotal seña</span><strong id="subtotal" style="color:var(--hi);">$0</strong></div>
+          <div style="display:flex;justify-content:space-between;"><span style="color:var(--mut);">IVA incluido</span><strong style="color:var(--hi);">$0</strong></div>
+          <div style="display:flex;justify-content:space-between;padding-top:0.6rem;border-top:1px solid var(--line);">
+            <span style="color:var(--hi);font-weight:600;font-size:1.05rem;">Total pagado</span>
+            <strong id="totalPagado" style="font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--gold);font-weight:600;">$0</strong>
+          </div>
+        </div>
+
+        <div style="margin-top:1.5rem;padding:1rem;background:var(--base);border:1px solid var(--line);border-radius:0.5rem;font-size:0.85rem;color:var(--mut);display:flex;gap:0.6rem;align-items:center;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+          Saldo a pagar el día de la sesión: <strong style="color:var(--hi);" id="saldo">$0</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRÓXIMOS PASOS -->
+    <div style="margin-top:2rem;background:var(--elev);border:1px solid var(--line);border-radius:1rem;padding:1.75rem;">
+      <h3 style="font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--hi);margin-bottom:1rem;font-weight:500;">Próximos pasos</h3>
+      <ol style="list-style:none;padding:0;margin:0;counter-reset:step;">
+        <li style="counter-increment:step;display:flex;gap:1rem;padding:0.85rem 0;border-bottom:1px solid var(--line);">
+          <span style="flex-shrink:0;width:32px;height:32px;background:rgba(212,165,116,0.1);border:1px solid rgba(212,165,116,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold);font-weight:600;font-size:0.85rem;font-family:'Playfair Display',serif;">1</span>
+          <div>
+            <strong style="color:var(--hi);display:block;margin-bottom:0.25rem;">Te enviamos un email</strong>
+            <span style="color:var(--mut);font-size:0.9rem;">Con todos los detalles de tu reserva y comprobante de pago.</span>
+          </div>
+        </li>
+        <li style="counter-increment:step;display:flex;gap:1rem;padding:0.85rem 0;border-bottom:1px solid var(--line);">
+          <span style="flex-shrink:0;width:32px;height:32px;background:rgba(212,165,116,0.1);border:1px solid rgba(212,165,116,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold);font-weight:600;font-size:0.85rem;font-family:'Playfair Display',serif;">2</span>
+          <div>
+            <strong style="color:var(--hi);display:block;margin-bottom:0.25rem;">Confirmación por WhatsApp</strong>
+            <span style="color:var(--mut);font-size:0.9rem;">Nos pondremos en contacto 48h antes para ultimar detalles.</span>
+          </div>
+        </li>
+        <li style="counter-increment:step;display:flex;gap:1rem;padding:0.85rem 0;">
+          <span style="flex-shrink:0;width:32px;height:32px;background:rgba(212,165,116,0.1);border:1px solid rgba(212,165,116,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold);font-weight:600;font-size:0.85rem;font-family:'Playfair Display',serif;">3</span>
+          <div>
+            <strong style="color:var(--hi);display:block;margin-bottom:0.25rem;">Día de la sesión</strong>
+            <span style="color:var(--mut);font-size:0.9rem;">Llega puntualmente y trae muchas ganas. El resto lo ponemos nosotros.</span>
+          </div>
+        </li>
+      </ol>
+    </div>
+
+    <div style="display:flex;flex-wrap:wrap;gap:1rem;margin-top:2rem;justify-content:center;">
+      <a href="perfil.html" class="btn-primary" style="padding:0.9rem 2rem;font-size:1rem;">Ver mi reserva</a>
+      <a href="index.html" class="btn-secondary" style="padding:0.9rem 2rem;font-size:1rem;">Volver al inicio</a>
+    </div>
+
+  </div>
+</section>
+
+<div id="footer-slot"></div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/storage.js"></script>
+<script src="assets/js/ui.js"></script>
+<script src="assets/js/auth.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    if (!window.PHOTO_AUTH.isLogged()) {
+      location.href = 'login.html';
+      return;
+    }
+
+    const { escapeHTML, formatMoney, formatDate } = window.PHOTO_UI;
+    const id = new URLSearchParams(location.search).get('id');
+    const reserva = id ? window.PHOTO_STORE.Reservas.byId(id) : null;
+
+    if (!reserva || !reserva.pago) {
+      location.href = 'perfil.html';
+      return;
+    }
+
+    const senia = Math.round(reserva.precio * 0.5);
+    const saldo = reserva.precio - senia;
+
+    document.getElementById('reciboId').textContent = reserva.pago.referencia;
+    document.getElementById('fechaPago').textContent = new Date(reserva.pago.fecha).toLocaleString('es-CL', { dateStyle: 'long', timeStyle: 'short' });
+    document.getElementById('emailShown').textContent = window.PHOTO_AUTH.session()?.email || 'tu email';
+    document.getElementById('subtotal').textContent = formatMoney(senia);
+    document.getElementById('totalPagado').textContent = formatMoney(senia);
+    document.getElementById('saldo').textContent = formatMoney(saldo);
+
+    const metodosTxt = { tarjeta: 'Tarjeta de crédito', transferencia: 'Transferencia bancaria', pendiente: 'Pago pendiente' };
+    document.getElementById('detallePago').innerHTML = `
+      <div style="display:flex;justify-content:space-between;"><span style="color:var(--mut);">Servicio</span><strong style="color:var(--hi);">${escapeHTML(reserva.servicio)}</strong></div>
+      <div style="display:flex;justify-content:space-between;"><span style="color:var(--mut);">Paquete</span><strong style="color:var(--hi);">${escapeHTML(reserva.paquete || '—')}</strong></div>
+      <div style="display:flex;justify-content:space-between;"><span style="color:var(--mut);">Reserva</span><strong style="color:var(--hi);font-family:monospace;">${reserva.id}</strong></div>
+      <div style="display:flex;justify-content:space-between;"><span style="color:var(--mut);">Fecha sesión</span><strong style="color:var(--hi);">${formatDate(reserva.fecha)}</strong></div>
+      <div style="display:flex;justify-content:space-between;"><span style="color:var(--mut);">Método</span><strong style="color:var(--hi);">${escapeHTML(metodosTxt[reserva.pago.metodo] || reserva.pago.metodo)} ${reserva.pago.ult4 ? '•••• ' + reserva.pago.ult4 : ''}</strong></div>
+    `;
+
+    // Confetti simple
+    lanzarConfetti();
+  });
+
+  function lanzarConfetti() {
+    const colors = ['#d4a574', '#e8c89c', '#f5f0e8'];
+    const cont = document.createElement('div');
+    cont.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:999;overflow:hidden;';
+    document.body.appendChild(cont);
+    for (let i = 0; i < 60; i++) {
+      const piece = document.createElement('div');
+      piece.style.cssText = `
+        position:absolute;
+        top:-10px;
+        left:${Math.random()*100}%;
+        width:${6+Math.random()*8}px;
+        height:${10+Math.random()*15}px;
+        background:${colors[Math.floor(Math.random()*colors.length)]};
+        opacity:${0.7+Math.random()*0.3};
+        transform:rotate(${Math.random()*360}deg);
+        animation:fall ${2+Math.random()*2}s linear forwards;
+      `;
+      cont.appendChild(piece);
+    }
+    if (!document.getElementById('confettiStyle')) {
+      const s = document.createElement('style');
+      s.id = 'confettiStyle';
+      s.textContent = '@keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:0;}}';
+      document.head.appendChild(s);
+    }
+    setTimeout(() => cont.remove(), 4500);
+  }
+</script>
+
+</body>
+</html>

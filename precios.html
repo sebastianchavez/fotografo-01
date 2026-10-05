@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Precios · Lumière</title>
+  <meta name="description" content="Paquetes y precios de nuestros servicios de fotografía profesional." />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { gold: '#d4a574', elev: '#15151a', soft: '#1f1f25', mut: '#9a9a9a' },
+          fontFamily: { display: ['"Playfair Display"', 'Georgia', 'serif'] }
+        }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+
+<div id="navbar-slot"></div>
+
+<!-- HEADER -->
+<section style="padding:6rem 0 3rem;background:linear-gradient(180deg,#0a0a0d 0%,#0b0b0c 100%);position:relative;">
+  <div style="position:absolute;inset:0;background-image:radial-gradient(circle at 80% 20%,rgba(212,165,116,0.08) 0%,transparent 40%);"></div>
+  <div class="container-narrow" style="position:relative;text-align:center;">
+    <span style="color:var(--gold);font-size:0.85rem;letter-spacing:0.15em;text-transform:uppercase;font-weight:500;">Inversión</span>
+    <h1 class="font-display" style="font-size:clamp(2.5rem,5vw,4rem);color:var(--hi);margin:1rem 0;font-weight:500;">Precios & Paquetes</h1>
+    <p style="color:var(--mut);font-size:1.05rem;max-width:620px;margin:0 auto;line-height:1.7;">Transparencia total. Sin sorpresas. Cada paquete incluye lo esencial para que tu experiencia sea excepcional.</p>
+  </div>
+</section>
+
+<!-- CATEGORY TABS -->
+<section style="padding:2rem 0 1rem;">
+  <div class="container-narrow">
+    <div id="catTabs" style="display:flex;flex-wrap:wrap;justify-content:center;gap:0.5rem;"></div>
+  </div>
+</section>
+
+<!-- PAQUETES -->
+<section class="section" style="padding-top:1.5rem;">
+  <div class="container-narrow">
+    <div id="paquetesGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.75rem;align-items:stretch;"></div>
+  </div>
+</section>
+
+<!-- COTIZACIÓN A MEDIDA -->
+<section style="background:#0a0a0d;padding:4rem 0;">
+  <div class="container-narrow reveal" style="background:linear-gradient(135deg,rgba(212,165,116,0.1) 0%,transparent 100%);border:1px solid rgba(212,165,116,0.3);border-radius:1rem;padding:3rem 2rem;text-align:center;">
+    <h2 class="font-display" style="font-size:clamp(1.6rem,3vw,2.2rem);color:var(--hi);font-weight:500;margin-bottom:0.75rem;">¿Necesitas algo diferente?</h2>
+    <p style="color:var(--mut);max-width:540px;margin:0 auto 1.75rem;line-height:1.7;">Cada proyecto es único. Si ninguno de nuestros paquetes se ajusta a tu visión, conversemos sobre una cotización a medida.</p>
+    <a href="contacto.html" class="btn-primary" style="padding:0.9rem 2rem;font-size:1rem;">Solicitar cotización</a>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section">
+  <div class="container-narrow" style="max-width:780px;">
+    <div class="reveal" style="text-align:center;margin-bottom:2.5rem;">
+      <h2 class="font-display" style="font-size:clamp(1.8rem,4vw,2.5rem);color:var(--hi);font-weight:500;">Preguntas frecuentes</h2>
+    </div>
+    <div id="faq" style="display:flex;flex-direction:column;gap:0.75rem;"></div>
+  </div>
+</section>
+
+<div id="footer-slot"></div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/storage.js"></script>
+<script src="assets/js/ui.js"></script>
+<script src="assets/js/auth.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const { servicios, paquetes } = window.PHOTO_DATA;
+    const { escapeHTML, formatMoney } = window.PHOTO_UI;
+
+    let activeCat = 'bodas';
+
+    const tabsEl = document.getElementById('catTabs');
+    const paquetesEl = document.getElementById('paquetesGrid');
+
+    function renderTabs() {
+      tabsEl.innerHTML = servicios.map(s => `
+        <button data-cat="${s.id}" class="cat-tab" style="padding:0.6rem 1.3rem;border-radius:9999px;font-size:0.85rem;font-weight:500;cursor:pointer;transition:all 0.2s;${
+          activeCat === s.id
+            ? 'background:var(--gold);color:var(--base);border:1px solid var(--gold);'
+            : 'background:var(--elev);color:var(--mut);border:1px solid var(--line);'
+        }">${escapeHTML(s.nombre)}</button>
+      `).join('');
+      tabsEl.querySelectorAll('.cat-tab').forEach(b => {
+        b.addEventListener('click', () => {
+          activeCat = b.dataset.cat;
+          renderTabs();
+          renderPaquetes();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      });
+    }
+
+    function renderPaquetes() {
+      const pkgs = paquetes[activeCat] || [];
+      paquetesEl.innerHTML = pkgs.map((p, i) => `
+        <article class="pkg-card reveal ${p.featured ? 'featured' : ''}">
+          ${p.featured ? '' : ''}
+          <h3 class="font-display" style="font-size:1.6rem;color:var(--hi);margin-bottom:0.5rem;font-weight:500;">${escapeHTML(p.nombre)}</h3>
+          <div style="display:flex;align-items:baseline;gap:0.5rem;margin-bottom:1.5rem;">
+            <span style="color:var(--gold);font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:600;">$${p.precio}</span>
+            <span style="color:var(--mut);font-size:0.85rem;">total</span>
+          </div>
+          <div style="height:1px;background:var(--line);margin:1.25rem 0;"></div>
+          <ul class="feat-list" style="list-style:none;padding:0;margin:0 0 1.5rem 0;">
+            ${p.items.map(it => `<li><span>${escapeHTML(it)}</span></li>`).join('')}
+          </ul>
+          <a href="reservar.html?servicio=${activeCat}&paquete=${i}" class="${p.featured ? 'btn-primary' : 'btn-secondary'}" style="width:100%;justify-content:center;padding:0.8rem 1.5rem;font-size:0.95rem;">${escapeHTML(p.cta || 'Reservar')}</a>
+        </article>
+      `).join('');
+    }
+
+    const faqs = [
+      { q: '¿Cuánto se debe pagar para reservar?', a: 'Para confirmar la reserva se abona el 50% del paquete como seña. El resto se paga el día del evento.' },
+      { q: '¿Puedo cambiar la fecha después de reservar?', a: 'Sí, hasta 15 días antes sin costo. Dentro de los 15 días se considera cambio de fecha con cargo del 30%.' },
+      { q: '¿Qué pasa si llueve el día de la sesión al aire libre?', a: 'Reagendamos sin costo o cambiamos a locación cubierta, según tu preferencia.' },
+      { q: '¿Cuántas fotos recibiré?', a: 'Varía por servicio: desde 10 en sesiones cortas hasta 600 en bodas Platinum. Detalle en cada paquete.' },
+      { q: '¿Entregan los archivos RAW?', a: 'No. Solo entregamos JPG editados de alta resolución. Los RAW son material de trabajo del fotógrafo.' }
+    ];
+
+    const faqEl = document.getElementById('faq');
+    faqEl.innerHTML = faqs.map((f, i) => `
+      <details class="faq-item reveal" style="background:var(--elev);border:1px solid var(--line);border-radius:0.6rem;padding:1.25rem 1.5rem;cursor:pointer;transition:border-color 0.2s;" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--line)'">
+        <summary style="display:flex;justify-content:space-between;align-items:center;list-style:none;color:var(--hi);font-weight:500;">
+          <span>${escapeHTML(f.q)}</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="transition:transform 0.3s;"><path d="M6 9l6 6 6-6"/></svg>
+        </summary>
+        <p style="color:var(--mut);margin-top:0.75rem;line-height:1.7;font-size:0.95rem;">${escapeHTML(f.a)}</p>
+      </details>
+    `).join('');
+    faqEl.querySelectorAll('.faq-item').forEach(d => {
+      d.addEventListener('toggle', () => {
+        const svg = d.querySelector('svg');
+        if (svg) svg.style.transform = d.open ? 'rotate(180deg)' : '';
+      });
+    });
+
+    renderTabs();
+    renderPaquetes();
+    window.PHOTO_UI.initReveal();
+  });
+</script>
+
+</body>
+</html>

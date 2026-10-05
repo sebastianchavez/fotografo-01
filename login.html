@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Iniciar sesión · Lumière</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { gold: '#d4a574', elev: '#15151a', soft: '#1f1f25', mut: '#9a9a9a' },
+          fontFamily: { display: ['"Playfair Display"', 'Georgia', 'serif'] }
+        }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <style>
+    body { background: linear-gradient(135deg,#0a0a0d 0%,#0b0b0c 100%); min-height:100vh; display:flex; flex-direction:column; }
+    .auth-shell { flex:1; display:flex; align-items:center; justify-content:center; padding:6rem 1.25rem 3rem; }
+    .auth-card { width:100%; max-width:440px; background:var(--elev); border:1px solid var(--line); border-radius:1rem; padding:2.5rem 2rem; }
+  </style>
+</head>
+<body>
+
+<div id="navbar-slot"></div>
+
+<div class="auth-shell">
+  <div class="auth-card animate-scale-in">
+    <div style="text-align:center;margin-bottom:2rem;">
+      <div style="display:inline-flex;align-items:center;gap:0.6rem;font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:600;margin-bottom:1rem;">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 12h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="4"/></svg>
+        <span>Lumière<span style="color:var(--gold)">.</span></span>
+      </div>
+      <h1 class="font-display" style="font-size:1.9rem;color:var(--hi);font-weight:500;">Bienvenido</h1>
+      <p style="color:var(--mut);margin-top:0.5rem;font-size:0.95rem;">Ingresa para gestionar tus reservas</p>
+    </div>
+
+    <div style="background:rgba(212,165,116,0.06);border:1px solid rgba(212,165,116,0.25);border-radius:0.5rem;padding:0.75rem 1rem;margin-bottom:1.5rem;font-size:0.85rem;color:var(--mut);display:flex;gap:0.5rem;align-items:flex-start;" id="nextBanner" style="display:none;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" style="flex-shrink:0;margin-top:2px;"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      <span id="nextText">Inicia sesión para continuar.</span>
+    </div>
+
+    <form id="loginForm" novalidate>
+      <div style="margin-bottom:1rem;">
+        <label class="label">Email</label>
+        <input type="email" name="email" class="input" placeholder="tu@email.com" autocomplete="email" required />
+        <p class="error-msg" data-error="email"></p>
+      </div>
+
+      <div style="margin-bottom:0.5rem;">
+        <label class="label">Contraseña</label>
+        <div style="position:relative;">
+          <input type="password" name="password" id="password" class="input" placeholder="••••••••" autocomplete="current-password" required style="padding-right:2.75rem;" />
+          <button type="button" id="togglePwd" style="position:absolute;right:0.75rem;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--mut);cursor:pointer;padding:0.25rem;" aria-label="Ver contraseña">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <p class="error-msg" data-error="password"></p>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;font-size:0.9rem;">
+        <label style="display:flex;align-items:center;gap:0.4rem;color:var(--mut);cursor:pointer;">
+          <input type="checkbox" name="recordarme" style="accent-color:var(--gold);" />
+          Recordarme
+        </label>
+        <a href="recuperar.html" style="color:var(--gold);font-weight:500;">¿Olvidaste tu contraseña?</a>
+      </div>
+
+      <button type="submit" class="btn-primary" style="width:100%;justify-content:center;padding:0.85rem;">
+        Iniciar sesión
+      </button>
+    </form>
+
+    <div style="display:flex;align-items:center;gap:0.75rem;margin:1.75rem 0;color:var(--mut);font-size:0.85rem;">
+      <div style="flex:1;height:1px;background:var(--line);"></div>
+      <span>o</span>
+      <div style="flex:1;height:1px;background:var(--line);"></div>
+    </div>
+
+    <p style="text-align:center;color:var(--mut);font-size:0.95rem;">
+      ¿No tienes cuenta? <a href="registro.html" id="registerLink" style="color:var(--gold);font-weight:600;">Regístrate</a>
+    </p>
+
+    <div style="margin-top:1.5rem;padding:1rem;background:var(--base);border:1px solid var(--line);border-radius:0.5rem;font-size:0.85rem;color:var(--mut);text-align:center;">
+      <strong style="color:var(--hi);">Demo:</strong> crea una cuenta nueva o usa cualquier email registrado.
+    </div>
+  </div>
+</div>
+
+<div id="footer-slot"></div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/storage.js"></script>
+<script src="assets/js/ui.js"></script>
+<script src="assets/js/auth.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const { toast } = window.PHOTO_UI;
+
+    // Si ya está logueado, redirigir
+    if (window.PHOTO_AUTH.isLogged()) {
+      const next = window.PHOTO_AUTH.getNextParam() || 'perfil.html';
+      location.href = next;
+      return;
+    }
+
+    // Banner "next"
+    const next = window.PHOTO_AUTH.getNextParam();
+    if (next) {
+      const banner = document.getElementById('nextBanner');
+      banner.style.display = 'flex';
+      const url = next.startsWith('http') ? next : '../' + next;
+      document.getElementById('nextText').innerHTML = 'Inicia sesión para continuar a <strong style="color:var(--hi);">' + decodeURIComponent(next) + '</strong>.';
+      document.getElementById('registerLink').href = 'registro.html?next=' + encodeURIComponent(next);
+    }
+
+    // Toggle password
+    const pwd = document.getElementById('password');
+    const toggle = document.getElementById('togglePwd');
+    toggle.addEventListener('click', () => {
+      pwd.type = pwd.type === 'password' ? 'text' : 'password';
+    });
+
+    // Form
+    const form = document.getElementById('loginForm');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(form));
+      form.querySelectorAll('[data-error]').forEach(p => p.textContent = '');
+      form.querySelectorAll('.input').forEach(i => i.classList.remove('input-error'));
+
+      let valid = true;
+      if (!data.email || !/^\S+@\S+\.\S+$/.test(data.email)) { setError('email', 'Email inválido'); valid = false; }
+      if (!data.password || data.password.length < 6) { setError('password', 'Mínimo 6 caracteres'); valid = false; }
+      if (!valid) return;
+
+      const btn = form.querySelector('button[type="submit"]');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="loader"></span> Ingresando...';
+
+      setTimeout(() => {
+        try {
+          const u = window.PHOTO_AUTH.login({ email: data.email, password: data.password });
+          btn.innerHTML = 'Iniciar sesión';
+          btn.disabled = false;
+          toast('Bienvenido/a ' + u.nombre.split(' ')[0], 'success');
+          setTimeout(() => location.href = next || 'perfil.html', 700);
+        } catch (err) {
+          btn.disabled = false;
+          btn.innerHTML = 'Iniciar sesión';
+          toast(err.message, 'error', 4500);
+        }
+      }, 800);
+    });
+
+    function setError(name, msg) {
+      const i = form.querySelector(`[name="${name}"]`);
+      if (i) i.classList.add('input-error');
+      const p = form.querySelector(`[data-error="${name}"]`);
+      if (p) p.textContent = msg;
+    }
+  });
+</script>
+
+</body>
+</html>

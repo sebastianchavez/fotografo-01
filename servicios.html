@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Servicios · Lumière</title>
+  <meta name="description" content="Servicios de fotografía profesional: bodas, retratos, eventos, productos, familia y maternidad." />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { gold: '#d4a574', elev: '#15151a', soft: '#1f1f25', mut: '#9a9a9a' },
+          fontFamily: { display: ['"Playfair Display"', 'Georgia', 'serif'] }
+        }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+
+<div id="navbar-slot"></div>
+
+<!-- HEADER -->
+<section style="padding:6rem 0 3rem;background:linear-gradient(180deg,#0a0a0d 0%,#0b0b0c 100%);position:relative;">
+  <div style="position:absolute;inset:0;background-image:radial-gradient(circle at 80% 20%,rgba(212,165,116,0.08) 0%,transparent 40%);"></div>
+  <div class="container-narrow" style="position:relative;text-align:center;">
+    <span style="color:var(--gold);font-size:0.85rem;letter-spacing:0.15em;text-transform:uppercase;font-weight:500;">Lo que ofrecemos</span>
+    <h1 class="font-display" style="font-size:clamp(2.5rem,5vw,4rem);color:var(--hi);margin:1rem 0;font-weight:500;">Nuestros servicios</h1>
+    <p style="color:var(--mut);font-size:1.05rem;max-width:600px;margin:0 auto;line-height:1.7;">Sesiones diseñadas para cada momento importante de tu vida. Cada servicio incluye dirección artística, edición profesional y entrega en galería privada.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container-narrow">
+    <div id="serviciosGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.75rem;"></div>
+  </div>
+</section>
+
+<!-- CÓMO TRABAJAMOS -->
+<section class="section" style="background:#0a0a0d;">
+  <div class="container-narrow">
+    <div class="reveal" style="text-align:center;margin-bottom:3.5rem;">
+      <span style="color:var(--gold);font-size:0.85rem;letter-spacing:0.15em;text-transform:uppercase;font-weight:500;">El proceso</span>
+      <h2 class="font-display" style="font-size:clamp(2rem,4vw,3rem);color:var(--hi);margin:0.8rem 0 1rem;font-weight:500;">¿Cómo trabajamos?</h2>
+      <div class="divider-gold"></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2rem;">
+      <div class="reveal" style="text-align:center;padding:2rem 1.5rem;">
+        <div style="width:60px;height:60px;background:rgba(212,165,116,0.1);border:1px solid rgba(212,165,116,0.3);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;margin-bottom:1.5rem;">
+          <span class="font-display" style="font-size:1.5rem;color:var(--gold);font-weight:600;">01</span>
+        </div>
+        <h3 class="font-display" style="font-size:1.3rem;color:var(--hi);margin-bottom:0.75rem;font-weight:500;">Reservas</h3>
+        <p style="color:var(--mut);line-height:1.7;font-size:0.95rem;">Selecciona el servicio, fecha y paquete que se ajuste a tu visión.</p>
+      </div>
+      <div class="reveal" style="text-align:center;padding:2rem 1.5rem;">
+        <div style="width:60px;height:60px;background:rgba(212,165,116,0.1);border:1px solid rgba(212,165,116,0.3);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;margin-bottom:1.5rem;">
+          <span class="font-display" style="font-size:1.5rem;color:var(--gold);font-weight:600;">02</span>
+        </div>
+        <h3 class="font-display" style="font-size:1.3rem;color:var(--hi);margin-bottom:0.75rem;font-weight:500;">Sesión</h3>
+        <p style="color:var(--mut);line-height:1.7;font-size:0.95rem;">Nos encontramos en el lugar y hora acordados. Disfruta mientras capturamos la magia.</p>
+      </div>
+      <div class="reveal" style="text-align:center;padding:2rem 1.5rem;">
+        <div style="width:60px;height:60px;background:rgba(212,165,116,0.1);border:1px solid rgba(212,165,116,0.3);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;margin-bottom:1.5rem;">
+          <span class="font-display" style="font-size:1.5rem;color:var(--gold);font-weight:600;">03</span>
+        </div>
+        <h3 class="font-display" style="font-size:1.3rem;color:var(--hi);margin-bottom:0.75rem;font-weight:500;">Edición</h3>
+        <p style="color:var(--mut);line-height:1.7;font-size:0.95rem;">Seleccionamos y editamos cuidadosamente las mejores imágenes.</p>
+      </div>
+      <div class="reveal" style="text-align:center;padding:2rem 1.5rem;">
+        <div style="width:60px;height:60px;background:rgba(212,165,116,0.1);border:1px solid rgba(212,165,116,0.3);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;margin-bottom:1.5rem;">
+          <span class="font-display" style="font-size:1.5rem;color:var(--gold);font-weight:600;">04</span>
+        </div>
+        <h3 class="font-display" style="font-size:1.3rem;color:var(--hi);margin-bottom:0.75rem;font-weight:500;">Entrega</h3>
+        <p style="color:var(--mut);line-height:1.7;font-size:0.95rem;">Recibes tu galería privada con descarga en alta resolución.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="background:linear-gradient(135deg,#1a1410 0%,#0b0b0c 100%);padding:4rem 0;text-align:center;">
+  <div class="container-narrow reveal">
+    <h2 class="font-display" style="font-size:clamp(1.8rem,4vw,2.8rem);color:var(--hi);font-weight:500;margin-bottom:1rem;">¿Cuál se adapta a ti?</h2>
+    <p style="color:var(--mut);margin-bottom:2rem;">Reserva tu sesión en menos de 3 minutos.</p>
+    <a href="reservar.html" class="btn-primary" style="padding:0.9rem 2rem;font-size:1rem;">Iniciar reserva</a>
+  </div>
+</section>
+
+<div id="footer-slot"></div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/storage.js"></script>
+<script src="assets/js/ui.js"></script>
+<script src="assets/js/auth.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const { servicios } = window.PHOTO_DATA;
+    const { escapeHTML } = window.PHOTO_UI;
+    const grid = document.getElementById('serviciosGrid');
+
+    grid.innerHTML = servicios.map(s => `
+      <article id="${s.id}" class="card-hover reveal" style="background:var(--elev);border:1px solid var(--line);border-radius:1rem;overflow:hidden;display:flex;flex-direction:column;">
+        <div style="aspect-ratio:4/3;overflow:hidden;position:relative;">
+          <img src="${s.img}" alt="${escapeHTML(s.nombre)}" class="img-cover" style="transition:transform 0.6s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'" />
+          ${s.destacado ? '<span style="position:absolute;top:1rem;left:1rem;background:var(--gold);color:var(--base);padding:0.3rem 0.8rem;border-radius:9999px;font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;">Destacado</span>' : ''}
+        </div>
+        <div style="padding:1.75rem;display:flex;flex-direction:column;flex:1;">
+          <h3 class="font-display" style="font-size:1.5rem;color:var(--hi);margin-bottom:0.6rem;font-weight:500;">${escapeHTML(s.nombre)}</h3>
+          <p style="color:var(--mut);font-size:0.95rem;line-height:1.6;margin-bottom:1rem;flex:1;">${escapeHTML(s.descripcion)}</p>
+          <ul style="list-style:none;padding:0;margin:0 0 1.25rem 0;display:flex;flex-direction:column;gap:0.4rem;">
+            ${s.incluye.map(i => `<li style="display:flex;align-items:center;gap:0.5rem;color:var(--hi);font-size:0.85rem;"><span style="color:var(--gold);">✓</span>${escapeHTML(i)}</li>`).join('')}
+          </ul>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding-top:1rem;border-top:1px solid var(--line);">
+            <div>
+              <span style="color:var(--mut);font-size:0.8rem;">Desde</span>
+              <div style="color:var(--gold);font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:600;">$${s.desde}</div>
+            </div>
+            <a href="reservar.html?servicio=${s.id}" class="btn-primary" style="padding:0.5rem 1.25rem;font-size:0.85rem;">Reservar</a>
+          </div>
+        </div>
+      </article>
+    `).join('');
+
+    window.PHOTO_UI.initReveal();
+  });
+</script>
+
+</body>
+</html>

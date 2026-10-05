@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clases de Fotografía · Lumière</title>
+  <meta name="description" content="Aprende fotografía con nuestros cursos teóricos y prácticos. Horarios semanales disponibles." />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { gold: '#d4a574', elev: '#15151a', soft: '#1f1f25', mut: '#9a9a9a' },
+          fontFamily: { display: ['"Playfair Display"', 'Georgia', 'serif'] }
+        }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+
+<div id="navbar-slot"></div>
+
+<!-- HEADER -->
+<section style="padding:6rem 0 3rem;background:linear-gradient(180deg,#0a0a0d 0%,#0b0b0c 100%);position:relative;">
+  <div style="position:absolute;inset:0;background-image:radial-gradient(circle at 80% 20%,rgba(212,165,116,0.08) 0%,transparent 40%);"></div>
+  <div class="container-narrow" style="position:relative;text-align:center;">
+    <span style="color:var(--gold);font-size:0.85rem;letter-spacing:0.15em;text-transform:uppercase;font-weight:500;">Educación</span>
+    <h1 class="font-display" style="font-size:clamp(2.5rem,5vw,4rem);color:var(--hi);margin:1rem 0;font-weight:500;">Clases de fotografía</h1>
+    <p style="color:var(--mut);font-size:1.05rem;max-width:620px;margin:0 auto;line-height:1.7;">Aprende de profesionales. Cursos teórico-prácticos para todos los niveles, en grupos reducidos.</p>
+  </div>
+</section>
+
+<!-- HORARIO SEMANAL -->
+<section class="section">
+  <div class="container-narrow">
+    <div class="reveal" style="text-align:center;margin-bottom:3rem;">
+      <h2 class="font-display" style="font-size:clamp(1.8rem,4vw,2.5rem);color:var(--hi);font-weight:500;">Horario semanal</h2>
+      <p class="divider-gold" style="margin-top:1rem;"></p>
+    </div>
+
+    <!-- Tabla desktop -->
+    <div class="reveal" style="background:var(--elev);border:1px solid var(--line);border-radius:0.8rem;overflow:hidden;display:none;" id="tablaWrap">
+      <table class="tbl" style="margin:0;">
+        <thead>
+          <tr>
+            <th>Día</th>
+            <th>Horario</th>
+            <th>Clase</th>
+            <th>Nivel</th>
+            <th>Cupos</th>
+            <th>Precio</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="tablaBody"></tbody>
+      </table>
+    </div>
+
+    <!-- Cards mobile -->
+    <div id="clasesCards" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;"></div>
+  </div>
+</section>
+
+<!-- INFO ADICIONAL -->
+<section style="background:#0a0a0d;padding:4rem 0;">
+  <div class="container-narrow" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2rem;">
+    <div class="reveal" style="text-align:center;padding:1.5rem;">
+      <div style="width:50px;height:50px;background:rgba(212,165,116,0.1);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;margin-bottom:1rem;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <h3 class="font-display" style="font-size:1.15rem;color:var(--hi);margin-bottom:0.5rem;">Grupos reducidos</h3>
+      <p style="color:var(--mut);font-size:0.9rem;line-height:1.6;">Máximo 8 alumnos. Aprendizaje personalizado.</p>
+    </div>
+    <div class="reveal" style="text-align:center;padding:1.5rem;">
+      <div style="width:50px;height:50px;background:rgba(212,165,116,0.1);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;margin-bottom:1rem;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>
+      </div>
+      <h3 class="font-display" style="font-size:1.15rem;color:var(--hi);margin-bottom:0.5rem;">Estudio equipado</h3>
+      <p style="color:var(--mut);font-size:0.9rem;line-height:1.6;">Equipos profesionales disponibles para prácticas.</p>
+    </div>
+    <div class="reveal" style="text-align:center;padding:1.5rem;">
+      <div style="width:50px;height:50px;background:rgba(212,165,116,0.1);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;margin-bottom:1rem;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      </div>
+      <h3 class="font-display" style="font-size:1.15rem;color:var(--hi);margin-bottom:0.5rem;">Horarios flexibles</h3>
+      <p style="color:var(--mut);font-size:0.9rem;line-height:1.6;">Clases entre semana y sábados para adaptarse a ti.</p>
+    </div>
+    <div class="reveal" style="text-align:center;padding:1.5rem;">
+      <div style="width:50px;height:50px;background:rgba(212,165,116,0.1);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;margin-bottom:1rem;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
+      </div>
+      <h3 class="font-display" style="font-size:1.15rem;color:var(--hi);margin-bottom:0.5rem;">Certificado</h3>
+      <p style="color:var(--mut);font-size:0.9rem;line-height:1.6;">Recibe certificado al completar el programa.</p>
+    </div>
+  </div>
+</section>
+
+<div id="footer-slot"></div>
+
+<!-- MODAL DE INSCRIPCIÓN -->
+<div id="modalInscripcion" style="display:none;"></div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/storage.js"></script>
+<script src="assets/js/ui.js"></script>
+<script src="assets/js/auth.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const { clases } = window.PHOTO_DATA;
+    const { escapeHTML, formatMoney, modal, toast } = window.PHOTO_UI;
+
+    const isWide = window.innerWidth >= 900;
+    document.getElementById('tablaWrap').style.display = isWide ? 'block' : 'none';
+
+    // Tabla
+    const diaOrden = { Lunes:1, Martes:2, Miércoles:3, Jueves:4, Viernes:5, Sábado:6, Domingo:7 };
+    const clasesSorted = [...clases].sort((a,b) => diaOrden[a.dia] - diaOrden[b.dia]);
+    document.getElementById('tablaBody').innerHTML = clasesSorted.map(c => `
+      <tr>
+        <td><strong style="color:var(--hi);">${escapeHTML(c.dia)}</strong></td>
+        <td><span style="color:var(--gold);font-weight:500;">${escapeHTML(c.hora)}</span> · ${escapeHTML(c.duracion)}</td>
+        <td>${escapeHTML(c.nombre)}</td>
+        <td><span style="background:var(--soft);padding:0.25rem 0.7rem;border-radius:9999px;font-size:0.75rem;color:var(--hi);">${escapeHTML(c.nivel)}</span></td>
+        <td>${c.cupos} disp.</td>
+        <td><strong style="color:var(--gold);">$${c.precio}</strong></td>
+        <td><button class="btn-primary inscribir" data-clase="${c.id}" style="padding:0.45rem 1rem;font-size:0.8rem;">Inscribirse</button></td>
+      </tr>
+    `).join('');
+
+    // Cards mobile
+    document.getElementById('clasesCards').innerHTML = clasesSorted.map(c => `
+      <article class="card-hover reveal" style="background:var(--elev);border:1px solid var(--line);border-radius:0.8rem;padding:1.5rem;">
+        <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:1rem;">
+          <div>
+            <span style="color:var(--gold);font-size:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;">${escapeHTML(c.dia)} · ${escapeHTML(c.hora)}</span>
+            <h3 class="font-display" style="font-size:1.3rem;color:var(--hi);margin-top:0.4rem;font-weight:500;">${escapeHTML(c.nombre)}</h3>
+          </div>
+          <span style="background:var(--soft);padding:0.25rem 0.7rem;border-radius:9999px;font-size:0.75rem;color:var(--hi);">${escapeHTML(c.nivel)}</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;color:var(--mut);font-size:0.9rem;padding:0.75rem 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:1rem;">
+          <span>${escapeHTML(c.duracion)}</span>
+          <span>${c.cupos} cupos disponibles</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div>
+            <span style="color:var(--mut);font-size:0.8rem;">Precio</span>
+            <div style="color:var(--gold);font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:600;">$${c.precio}</div>
+          </div>
+          <button class="btn-primary inscribir" data-clase="${c.id}" style="padding:0.5rem 1.1rem;font-size:0.85rem;">Inscribirse</button>
+        </div>
+      </article>
+    `).join('');
+
+    window.PHOTO_UI.initReveal();
+
+    document.querySelectorAll('.inscribir').forEach(b => {
+      b.addEventListener('click', () => {
+        if (!window.PHOTO_AUTH.isLogged()) {
+          toast('Inicia sesión para inscribirte', 'info');
+          setTimeout(() => location.href = 'login.html?next=clases.html', 800);
+          return;
+        }
+        const c = clases.find(x => x.id === b.dataset.clase);
+        abrirModalInscripcion(c);
+      });
+    });
+
+    function abrirModalInscripcion(c) {
+      const html = `
+        <div style="text-align:center;margin-bottom:1.25rem;">
+          <div style="width:60px;height:60px;background:rgba(212,165,116,0.1);border:1px solid rgba(212,165,116,0.3);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;margin-bottom:1rem;">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+          </div>
+          <h3 class="font-display" style="font-size:1.5rem;color:var(--hi);font-weight:500;">${escapeHTML(c.nombre)}</h3>
+          <p style="color:var(--mut);margin-top:0.5rem;font-size:0.95rem;">${escapeHTML(c.dia)} · ${escapeHTML(c.hora)} · ${escapeHTML(c.duracion)}</p>
+        </div>
+        <div style="background:var(--soft);border-radius:0.5rem;padding:1rem;margin-bottom:1.25rem;">
+          <div style="display:flex;justify-content:space-between;color:var(--hi);margin-bottom:0.5rem;font-size:0.9rem;"><span>Nivel</span><strong>${escapeHTML(c.nivel)}</strong></div>
+          <div style="display:flex;justify-content:space-between;color:var(--hi);margin-bottom:0.5rem;font-size:0.9rem;"><span>Cupos disponibles</span><strong>${c.cupos}</strong></div>
+          <div style="display:flex;justify-content:space-between;color:var(--hi);font-size:0.95rem;padding-top:0.5rem;border-top:1px solid var(--line);"><span>Total</span><strong style="color:var(--gold);font-size:1.2rem;">$${c.precio}</strong></div>
+        </div>
+        <p style="color:var(--mut);font-size:0.85rem;text-align:center;line-height:1.5;">Al inscribirte se generará una reserva con pago pendiente. Podrás pagar desde tu perfil.</p>
+      `;
+      modal({
+        title: 'Confirmar inscripción',
+        body: html,
+        footer:
+          '<button class="btn-ghost" data-modal-cancel>Cancelar</button>' +
+          '<button class="btn-primary" data-modal-confirm>Confirmar inscripción</button>',
+        confirmText: 'Confirmar inscripción'
+      });
+
+      // Reemplazar handlers
+      const wrap = document.querySelector('.modal-backdrop');
+      wrap.querySelector('[data-modal-cancel]').addEventListener('click', () => document.querySelector('.modal-backdrop').remove());
+      wrap.querySelector('[data-modal-confirm]').addEventListener('click', () => {
+        const sess = window.PHOTO_AUTH.session();
+        const r = window.PHOTO_STORE.Reservas.create({
+          userId: sess.id,
+          servicioId: 'clases',
+          servicio: 'Clase: ' + c.nombre,
+          paquete: c.nivel,
+          fecha: proximoDia(c.dia),
+          hora: c.hora,
+          duracion: c.duracion,
+          lugar: 'Estudio Lumière',
+          direccion: 'Av. Apoquindo 4501, Las Condes',
+          precio: c.precio,
+          notas: 'Inscripción a clase',
+          contacto: { email: sess.email }
+        });
+        document.querySelector('.modal-backdrop').remove();
+        toast('Inscripción creada. Continúa al pago.', 'success');
+        setTimeout(() => location.href = 'confirmacion.html?id=' + r.id, 900);
+      });
+    }
+
+    function proximoDia(nombre) {
+      const map = { Domingo:0, Lunes:1, Martes:2, Miércoles:3, Jueves:4, Viernes:5, Sábado:6 };
+      const target = map[nombre];
+      const today = new Date();
+      let diff = (target - today.getDay() + 7) % 7;
+      if (diff === 0) diff = 7;
+      const d = new Date(today);
+      d.setDate(today.getDate() + diff);
+      return d.toISOString().slice(0,10);
+    }
+  });
+</script>
+
+</body>
+</html>

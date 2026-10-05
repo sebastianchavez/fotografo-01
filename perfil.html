@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mi perfil · Lumière</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { gold: '#d4a574', elev: '#15151a', soft: '#1f1f25', mut: '#9a9a9a' },
+          fontFamily: { display: ['"Playfair Display"', 'Georgia', 'serif'] }
+        }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+
+<div id="navbar-slot"></div>
+
+<section style="padding:5rem 0 1rem;background:linear-gradient(180deg,#0a0a0d 0%,#0b0b0c 100%);">
+  <div class="container-narrow">
+    <div style="display:flex;align-items:center;gap:1.25rem;flex-wrap:wrap;">
+      <div id="userAvatar" class="avatar" style="width:70px;height:70px;font-size:1.8rem;"></div>
+      <div style="flex:1;min-width:200px;">
+        <h1 class="font-display" style="font-size:clamp(1.6rem,4vw,2.2rem);color:var(--hi);font-weight:500;" id="userName">—</h1>
+        <p style="color:var(--mut);margin-top:0.25rem;font-size:0.9rem;" id="userEmail">—</p>
+      </div>
+      <div style="display:flex;gap:0.6rem;flex-wrap:wrap;">
+        <button id="editBtn" class="btn-secondary" style="padding:0.5rem 1rem;font-size:0.85rem;">Editar perfil</button>
+        <a href="reservar.html" class="btn-primary" style="padding:0.5rem 1rem;font-size:0.85rem;">+ Nueva reserva</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section style="padding:1rem 0 2rem;">
+  <div class="container-narrow">
+    <div id="stats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:0.85rem;"></div>
+  </div>
+</section>
+
+<!-- TABS -->
+<section style="background:var(--elev);border-top:1px solid var(--line);border-bottom:1px solid var(--line);position:sticky;top:64px;z-index:30;">
+  <div class="container-narrow" style="display:flex;gap:0.25rem;">
+    <button class="tab-btn" data-tab="reservas" style="padding:1rem 1.25rem;background:none;border:none;color:var(--mut);font-weight:500;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;">Mis reservas</button>
+    <button class="tab-btn" data-tab="datos" style="padding:1rem 1.25rem;background:none;border:none;color:var(--mut);font-weight:500;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;">Datos personales</button>
+  </div>
+</section>
+
+<!-- TAB: RESERVAS -->
+<section id="tabReservas" class="section" style="padding-top:2rem;">
+  <div class="container-narrow">
+    <!-- Filtros de estado -->
+    <div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:1.5rem;">
+      <button class="filter-btn active" data-filtro="todas" style="padding:0.4rem 0.9rem;background:var(--gold);color:var(--base);border:none;border-radius:9999px;font-size:0.8rem;font-weight:600;cursor:pointer;">Todas</button>
+      <button class="filter-btn" data-filtro="pendiente" style="padding:0.4rem 0.9rem;background:var(--soft);color:var(--hi);border:none;border-radius:9999px;font-size:0.8rem;font-weight:600;cursor:pointer;">Pendientes</button>
+      <button class="filter-btn" data-filtro="confirmada" style="padding:0.4rem 0.9rem;background:var(--soft);color:var(--hi);border:none;border-radius:9999px;font-size:0.8rem;font-weight:600;cursor:pointer;">Confirmadas</button>
+      <button class="filter-btn" data-filtro="completada" style="padding:0.4rem 0.9rem;background:var(--soft);color:var(--hi);border:none;border-radius:9999px;font-size:0.8rem;font-weight:600;cursor:pointer;">Completadas</button>
+      <button class="filter-btn" data-filtro="cancelada" style="padding:0.4rem 0.9rem;background:var(--soft);color:var(--hi);border:none;border-radius:9999px;font-size:0.8rem;font-weight:600;cursor:pointer;">Canceladas</button>
+    </div>
+
+    <div id="reservasList"></div>
+  </div>
+</section>
+
+<!-- TAB: DATOS -->
+<section id="tabDatos" class="section" style="padding-top:2rem;display:none;">
+  <div class="container-narrow" style="max-width:680px;">
+    <div style="background:var(--elev);border:1px solid var(--line);border-radius:1rem;padding:2rem;">
+      <h2 class="font-display" style="font-size:1.5rem;color:var(--hi);margin-bottom:1.5rem;font-weight:500;">Datos personales</h2>
+
+      <form id="datosForm" novalidate>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
+          <div>
+            <label class="label">Nombre completo</label>
+            <input type="text" name="nombre" class="input" required />
+          </div>
+          <div>
+            <label class="label">Teléfono</label>
+            <input type="tel" name="telefono" class="input" />
+          </div>
+        </div>
+
+        <div style="margin-bottom:1.5rem;">
+          <label class="label">Email</label>
+          <input type="email" name="email" class="input" disabled />
+          <p style="color:var(--mut);font-size:0.8rem;margin-top:0.4rem;">El email no se puede modificar.</p>
+        </div>
+
+        <div style="border-top:1px solid var(--line);padding-top:1.5rem;margin-bottom:1.5rem;">
+          <h3 style="color:var(--gold);font-size:0.85rem;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:1rem;">Cambiar contraseña</h3>
+          <div style="margin-bottom:1rem;">
+            <label class="label">Nueva contraseña</label>
+            <input type="password" name="newPwd" class="input" placeholder="Mínimo 6 caracteres" />
+          </div>
+          <div>
+            <label class="label">Confirmar nueva contraseña</label>
+            <input type="password" name="confirmPwd" class="input" />
+          </div>
+        </div>
+
+        <button type="submit" class="btn-primary" style="width:100%;justify-content:center;padding:0.85rem;">Guardar cambios</button>
+      </form>
+    </div>
+
+    <div style="margin-top:1.5rem;text-align:center;">
+      <button id="logoutBtn" class="btn-ghost" style="color:#e57268;">Cerrar sesión</button>
+    </div>
+  </div>
+</section>
+
+<div id="footer-slot"></div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/storage.js"></script>
+<script src="assets/js/ui.js"></script>
+<script src="assets/js/auth.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    if (!window.PHOTO_AUTH.isLogged()) {
+      window.PHOTO_AUTH.requireAuth('perfil.html');
+      return;
+    }
+
+    const { escapeHTML, formatMoney, formatDate, toast } = window.PHOTO_UI;
+    const sess = window.PHOTO_AUTH.session();
+    const usersAll = window.PHOTO_STORE.Users.all();
+    const userFull = usersAll[sess.id] || { ...sess, telefono: '' };
+
+    document.getElementById('userName').textContent = userFull.nombre;
+    document.getElementById('userEmail').textContent = userFull.email;
+    document.getElementById('userAvatar').textContent = (userFull.nombre || 'U').slice(0,1).toUpperCase();
+
+    const reservas = window.PHOTO_STORE.Reservas.byUser(sess.id);
+    const statsData = [
+      { label: 'Total', value: reservas.length, color: 'var(--hi)' },
+      { label: 'Pendientes', value: reservas.filter(r => r.estado === 'pendiente').length, color: '#f0c243' },
+      { label: 'Confirmadas', value: reservas.filter(r => r.estado === 'confirmada').length, color: '#5fdb95' },
+      { label: 'Inversión', value: formatMoney(reservas.filter(r => r.estado !== 'cancelada').reduce((s,r) => s + r.precio, 0)), color: 'var(--gold)' }
+    ];
+    document.getElementById('stats').innerHTML = statsData.map(s => `
+      <div style="background:var(--elev);border:1px solid var(--line);border-radius:0.6rem;padding:1.25rem;text-align:center;">
+        <div style="color:var(--mut);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.4rem;">${escapeHTML(s.label)}</div>
+        <div style="font-family:'Playfair Display',serif;font-size:1.8rem;color:${s.color};font-weight:600;">${escapeHTML(String(s.value))}</div>
+      </div>
+    `).join('');
+
+    // Tabs
+    let currentTab = 'reservas';
+    let currentFilter = 'todas';
+
+    function setTab(name) {
+      currentTab = name;
+      document.querySelectorAll('.tab-btn').forEach(b => {
+        b.style.color = b.dataset.tab === name ? 'var(--gold)' : 'var(--mut)';
+        b.style.borderBottomColor = b.dataset.tab === name ? 'var(--gold)' : 'transparent';
+      });
+      document.getElementById('tabReservas').style.display = name === 'reservas' ? 'block' : 'none';
+      document.getElementById('tabDatos').style.display = name === 'datos' ? 'block' : 'none';
+    }
+    document.querySelectorAll('.tab-btn').forEach(b => b.addEventListener('click', () => setTab(b.dataset.tab)));
+
+    // Si llegó con hash #reservas
+    if (location.hash === '#reservas') setTab('reservas');
+
+    // Filtros
+    document.querySelectorAll('.filter-btn').forEach(b => {
+      b.addEventListener('click', () => {
+        currentFilter = b.dataset.filtro;
+        document.querySelectorAll('.filter-btn').forEach(x => {
+          const active = x === b;
+          x.style.background = active ? 'var(--gold)' : 'var(--soft)';
+          x.style.color = active ? 'var(--base)' : 'var(--hi)';
+        });
+        renderReservas();
+      });
+    });
+
+    function renderReservas() {
+      const list = currentFilter === 'todas' ? reservas : reservas.filter(r => r.estado === currentFilter);
+      const wrap = document.getElementById('reservasList');
+      if (!list.length) {
+        wrap.innerHTML = `
+          <div style="background:var(--elev);border:1px solid var(--line);border-radius:1rem;padding:3rem 2rem;text-align:center;">
+            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="var(--mut)" stroke-width="1.5" style="margin:0 auto 1rem;display:block;"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+            <h3 class="font-display" style="font-size:1.4rem;color:var(--hi);margin-bottom:0.5rem;font-weight:500;">No hay reservas</h3>
+            <p style="color:var(--mut);margin-bottom:1.5rem;">Aún no tienes reservas en esta categoría.</p>
+            <a href="reservar.html" class="btn-primary">Crear mi primera reserva</a>
+          </div>`;
+        return;
+      }
+      const estados = {
+        pendiente: { label: 'Pago pendiente', cls: 'badge-pendiente' },
+        confirmada: { label: 'Confirmada', cls: 'badge-confirmada' },
+        completada: { label: 'Completada', cls: 'badge-completada' },
+        cancelada: { label: 'Cancelada', cls: 'badge-cancelada' },
+        'no-show': { label: 'No se presentó', cls: 'badge-no-show' }
+      };
+      wrap.innerHTML = list.map(r => `
+        <article class="reveal" style="background:var(--elev);border:1px solid var(--line);border-radius:0.8rem;padding:1.5rem;display:grid;grid-template-columns:auto 1fr auto;gap:1.25rem;align-items:center;margin-bottom:1rem;">
+          <div style="width:60px;height:60px;background:rgba(212,165,116,0.08);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          </div>
+          <div style="min-width:0;">
+            <div style="display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;margin-bottom:0.35rem;">
+              <h3 style="font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--hi);font-weight:500;">${escapeHTML(r.servicio)}</h3>
+              <span class="badge ${estados[r.estado].cls}">${escapeHTML(estados[r.estado].label)}</span>
+            </div>
+            <p style="color:var(--mut);font-size:0.9rem;margin-bottom:0.25rem;">${formatDate(r.fecha)} · ${escapeHTML(r.hora)} hrs · ${escapeHTML(r.paquete || '')}</p>
+            <p style="color:var(--gold);font-size:0.85rem;font-weight:500;">${formatMoney(r.precio)} · <span style="color:var(--mut);font-family:monospace;">${r.id}</span></p>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:0.5rem;align-items:flex-end;flex-shrink:0;">
+            <a href="reserva-detalle.html?id=${r.id}" class="btn-secondary" style="padding:0.4rem 0.9rem;font-size:0.8rem;">Ver detalle</a>
+            ${r.estado === 'pendiente' ? `<a href="pago.html?id=${r.id}" class="btn-primary" style="padding:0.4rem 0.9rem;font-size:0.8rem;">Pagar</a>` : ''}
+          </div>
+        </article>
+      `).join('');
+      window.PHOTO_UI.initReveal();
+    }
+
+    renderReservas();
+    setTab('reservas');
+
+    // Form datos
+    const datosForm = document.getElementById('datosForm');
+    datosForm.nombre.value = userFull.nombre || '';
+    datosForm.telefono.value = userFull.telefono || '';
+    datosForm.email.value = userFull.email || '';
+
+    datosForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(datosForm));
+      const patch = { nombre: data.nombre, telefono: data.telefono };
+      if (data.newPwd) {
+        if (data.newPwd.length < 6) return toast('La contraseña debe tener al menos 6 caracteres', 'error');
+        if (data.newPwd !== data.confirmPwd) return toast('Las contraseñas no coinciden', 'error');
+        patch.password = data.newPwd;
+      }
+      try {
+        window.PHOTO_STORE.Users.update(sess.id, patch);
+        toast('Datos actualizados', 'success');
+        if (patch.nombre) {
+          document.getElementById('userName').textContent = patch.nombre;
+          document.getElementById('userAvatar').textContent = patch.nombre.slice(0,1).toUpperCase();
+        }
+        datosForm.newPwd.value = '';
+        datosForm.confirmPwd.value = '';
+      } catch (err) {
+        toast(err.message, 'error');
+      }
+    });
+
+    document.getElementById('editBtn').addEventListener('click', () => setTab('datos'));
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      window.PHOTO_AUTH.logout();
+      toast('Sesión cerrada', 'info');
+      setTimeout(() => location.href = 'index.html', 600);
+    });
+  });
+</script>
+
+</body>
+</html>

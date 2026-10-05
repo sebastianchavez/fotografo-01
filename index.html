@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lumière · Fotografía Profesional</title>
+  <meta name="description" content="Estudio fotográfico especializado en bodas, retratos y eventos. Reserva tu sesión en línea." />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            gold: '#d4a574',
+            'gold-light': '#e8c89c',
+            base: '#0b0b0c',
+            elev: '#15151a',
+            soft: '#1f1f25',
+            mut: '#9a9a9a'
+          },
+          fontFamily: {
+            display: ['"Playfair Display"', 'Georgia', 'serif'],
+            sans: ['Inter', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+
+<div id="navbar-slot"></div>
+
+<!-- HERO -->
+<section style="position:relative;min-height:92vh;display:flex;align-items:center;overflow:hidden;">
+  <div style="position:absolute;inset:0;background-image:url('assets/img/hero-bg.jpg');background-size:cover;background-position:center;"></div>
+  <div class="bg-hero-overlay" style="position:absolute;inset:0;"></div>
+  <div class="container-narrow" style="position:relative;z-index:2;padding-top:6rem;padding-bottom:4rem;">
+    <div class="reveal" style="max-width:780px;">
+      <div style="display:inline-flex;align-items:center;gap:0.6rem;padding:0.4rem 1rem;background:rgba(212,165,116,0.1);border:1px solid rgba(212,165,116,0.3);border-radius:9999px;color:var(--gold);font-size:0.8rem;font-weight:500;letter-spacing:0.05em;text-transform:uppercase;">
+        <span class="dot" style="width:6px;height:6px;background:var(--gold);border-radius:50%;animation:pulseGlow 2s ease-in-out infinite;"></span>
+        Reservas abiertas 2026
+      </div>
+      <h1 class="font-display animate-fade-up delay-100" style="font-size:clamp(2.5rem,7vw,5.5rem);line-height:1.05;color:var(--hi);margin:1.5rem 0 1rem;font-weight:500;">
+        Fotografía que <span class="text-gradient-gold">cuenta historias</span>
+      </h1>
+      <p class="animate-fade-up delay-200" style="font-size:clamp(1rem,1.6vw,1.2rem);color:var(--mut);max-width:580px;line-height:1.7;margin-bottom:2rem;">
+        Estudio especializado en bodas, retratos y contenido comercial. Reserva tu sesión en minutos y recibe imágenes que trascienden el tiempo.
+      </p>
+      <div class="animate-fade-up delay-300" style="display:flex;flex-wrap:wrap;gap:1rem;">
+        <a href="reservar.html" class="btn-primary" style="padding:0.9rem 2rem;font-size:1rem;">
+          Reservar mi sesión
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+        <a href="galeria.html" class="btn-secondary" style="padding:0.9rem 2rem;font-size:1rem;">Ver portafolio</a>
+      </div>
+      <div class="animate-fade-up delay-400" style="margin-top:3rem;display:flex;gap:2rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'Playfair Display',serif;font-size:2rem;color:var(--gold);font-weight:600;">12+</div>
+          <div style="color:var(--mut);font-size:0.85rem;margin-top:0.2rem;">Años de experiencia</div>
+        </div>
+        <div>
+          <div style="font-family:'Playfair Display',serif;font-size:2rem;color:var(--gold);font-weight:600;">850+</div>
+          <div style="color:var(--mut);font-size:0.85rem;margin-top:0.2rem;">Eventos cubiertos</div>
+        </div>
+        <div>
+          <div style="font-family:'Playfair Display',serif;font-size:2rem;color:var(--gold);font-weight:600;">5★</div>
+          <div style="color:var(--mut);font-size:0.85rem;margin-top:0.2rem;">Calificación media</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);z-index:2;color:var(--mut);animation:bounce 2s infinite;">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 13l5 5 5-5M7 6l5 5 5-5"/></svg>
+  </div>
+</section>
+
+<!-- SERVICIOS DESTACADOS -->
+<section class="section" style="background:#0a0a0d;">
+  <div class="container-narrow">
+    <div class="reveal" style="text-align:center;margin-bottom:3.5rem;">
+      <span style="color:var(--gold);font-size:0.85rem;letter-spacing:0.15em;text-transform:uppercase;font-weight:500;">Lo que hacemos</span>
+      <h2 class="font-display" style="font-size:clamp(2rem,4vw,3rem);color:var(--hi);margin:0.8rem 0 1rem;font-weight:500;">Servicios destacados</h2>
+      <div class="divider-gold"></div>
+    </div>
+    <div id="serviciosDestacados" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;"></div>
+    <div style="text-align:center;margin-top:2.5rem;">
+      <a href="servicios.html" class="btn-secondary">Ver todos los servicios
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- SOBRE MÍ -->
+<section class="section" style="background:linear-gradient(180deg,#0a0a0d 0%,#0b0b0c 100%);">
+  <div class="container-narrow" style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;">
+    <div class="reveal" style="position:relative;">
+      <div style="position:absolute;inset:-1rem -1rem 1rem 1rem;border:1px solid var(--gold);border-radius:0.8rem;opacity:0.3;"></div>
+      <img src="assets/img/hero.jpg"
+           alt="Fotógrafo trabajando" class="img-cover" style="position:relative;z-index:1;border-radius:0.8rem;aspect-ratio:4/5;box-shadow:0 30px 60px -20px rgba(0,0,0,0.6);" />
+    </div>
+    <div class="reveal">
+      <span style="color:var(--gold);font-size:0.85rem;letter-spacing:0.15em;text-transform:uppercase;font-weight:500;">Sobre mí</span>
+      <h2 class="font-display" style="font-size:clamp(2rem,4vw,3rem);color:var(--hi);margin:0.8rem 0 1.5rem;font-weight:500;line-height:1.1;">Andrés<br /><span style="color:var(--gold)">Montero</span></h2>
+      <p style="color:var(--mut);line-height:1.8;font-size:1rem;margin-bottom:1rem;">
+        Fotógrafo profesional con más de 12 años de experiencia. Mi pasión es capturar la autenticidad de cada momento: una mirada cómplice, una lágrima de emoción, una sonrisa genuina.
+      </p>
+      <p style="color:var(--mut);line-height:1.8;font-size:1rem;margin-bottom:2rem;">
+        Estudio el estilo documental combinado con dirección sutil para crear imágenes cinematográficas que cuentan tu historia única.
+      </p>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;padding:1.5rem;background:var(--elev);border-radius:0.8rem;border:1px solid var(--line);">
+        <div>
+          <div class="font-display" style="font-size:1.6rem;color:var(--gold);font-weight:600;">12+</div>
+          <div style="color:var(--mut);font-size:0.8rem;margin-top:0.3rem;">Años</div>
+        </div>
+        <div>
+          <div class="font-display" style="font-size:1.6rem;color:var(--gold);font-weight:600;">850+</div>
+          <div style="color:var(--mut);font-size:0.8rem;margin-top:0.3rem;">Eventos</div>
+        </div>
+        <div>
+          <div class="font-display" style="font-size:1.6rem;color:var(--gold);font-weight:600;">12</div>
+          <div style="color:var(--mut);font-size:0.8rem;margin-top:0.3rem;">Premios</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALERÍA PREVIEW -->
+<section class="section" style="background:#0a0a0d;">
+  <div class="container-narrow">
+    <div class="reveal" style="text-align:center;margin-bottom:3rem;">
+      <span style="color:var(--gold);font-size:0.85rem;letter-spacing:0.15em;text-transform:uppercase;font-weight:500;">Portafolio</span>
+      <h2 class="font-display" style="font-size:clamp(2rem,4vw,3rem);color:var(--hi);margin:0.8rem 0 1rem;font-weight:500;">Trabajo reciente</h2>
+      <div class="divider-gold"></div>
+    </div>
+    <div id="galeriaPreview" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem;"></div>
+    <div style="text-align:center;margin-top:2.5rem;">
+      <a href="galeria.html" class="btn-secondary">Ver galería completa</a>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIOS -->
+<section class="section">
+  <div class="container-narrow">
+    <div class="reveal" style="text-align:center;margin-bottom:3rem;">
+      <span style="color:var(--gold);font-size:0.85rem;letter-spacing:0.15em;text-transform:uppercase;font-weight:500;">Testimonios</span>
+      <h2 class="font-display" style="font-size:clamp(2rem,4vw,3rem);color:var(--hi);margin:0.8rem 0 1rem;font-weight:500;">Lo que dicen nuestros clientes</h2>
+      <div class="divider-gold"></div>
+    </div>
+    <div id="testimonios" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem;"></div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section style="background:linear-gradient(135deg,#1a1410 0%,#0b0b0c 100%);padding:5rem 0;position:relative;overflow:hidden;">
+  <div style="position:absolute;inset:0;background-image:radial-gradient(circle at 20% 50%,rgba(212,165,116,0.15) 0%,transparent 50%);"></div>
+  <div class="container-narrow reveal" style="position:relative;text-align:center;max-width:700px;">
+    <h2 class="font-display" style="font-size:clamp(2rem,5vw,3.5rem);color:var(--hi);font-weight:500;line-height:1.1;margin-bottom:1rem;">
+      ¿Listo para crear algo <span class="text-gradient-gold">extraordinario</span>?
+    </h2>
+    <p style="color:var(--mut);font-size:1.1rem;line-height:1.7;margin-bottom:2.5rem;">
+      Cada proyecto es único. Reserva una sesión y conversemos sobre cómo plasmar tu visión.
+    </p>
+    <div style="display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;">
+      <a href="reservar.html" class="btn-primary" style="padding:1rem 2.25rem;font-size:1rem;">Reservar ahora</a>
+      <a href="contacto.html" class="btn-secondary" style="padding:1rem 2.25rem;font-size:1rem;">Hablar con nosotros</a>
+    </div>
+  </div>
+</section>
+
+<div id="footer-slot"></div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/storage.js"></script>
+<script src="assets/js/ui.js"></script>
+<script src="assets/js/auth.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const { servicios, testimonios } = window.PHOTO_DATA;
+    const { $, escapeHTML } = window.PHOTO_UI;
+
+    // Servicios destacados
+    const destacados = servicios.filter(s => s.destacado);
+    $('#serviciosDestacados').innerHTML = destacados.map(s => `
+      <a href="servicios.html#${s.id}" class="card-hover reveal" style="background:var(--elev);border:1px solid var(--line);border-radius:1rem;overflow:hidden;text-decoration:none;display:block;">
+        <div style="aspect-ratio:4/3;overflow:hidden;position:relative;">
+          <img src="${s.img}" alt="${escapeHTML(s.nombre)}" class="img-cover" style="transition:transform 0.6s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'" />
+        </div>
+        <div style="padding:1.5rem;">
+          <h3 class="font-display" style="font-size:1.4rem;color:var(--hi);margin-bottom:0.5rem;font-weight:500;">${escapeHTML(s.nombre)}</h3>
+          <p style="color:var(--mut);font-size:0.9rem;line-height:1.5;margin-bottom:1rem;">${escapeHTML(s.descripcion)}</p>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="color:var(--gold);font-weight:600;">Desde $${s.desde}</span>
+            <span style="color:var(--mut);font-size:0.85rem;">Ver más →</span>
+          </div>
+        </div>
+      </a>
+    `).join('');
+
+    // Galería preview (6 imágenes)
+    const gal = window.PHOTO_DATA.galeria.slice(0, 6);
+    $('#galeriaPreview').innerHTML = gal.map(g => `
+      <div class="reveal" style="aspect-ratio:1;overflow:hidden;border-radius:0.6rem;cursor:pointer;">
+        <img src="${g.src}" alt="Galería" class="img-cover" style="transition:transform 0.6s ease;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'" />
+      </div>
+    `).join('');
+
+    // Testimonios
+    $('#testimonios').innerHTML = testimonios.map(t => `
+      <div class="reveal" style="background:var(--elev);border:1px solid var(--line);border-radius:1rem;padding:1.75rem;">
+        <div style="display:flex;gap:0.2rem;margin-bottom:1rem;color:var(--gold);">
+          ${Array(t.rating).fill('<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .587l3.668 7.431L24 9.75l-6 5.847 1.417 8.265L12 19.771l-7.417 4.091L6 15.597 0 9.75l8.332-1.732z"/></svg>').join('')}
+        </div>
+        <p style="color:var(--hi);font-size:0.95rem;line-height:1.6;margin-bottom:1.5rem;font-style:italic;">"${escapeHTML(t.texto)}"</p>
+        <div style="display:flex;align-items:center;gap:0.6rem;">
+          <div class="avatar">${escapeHTML(t.nombre.slice(0,1))}</div>
+          <div>
+            <div style="color:var(--hi);font-weight:500;font-size:0.95rem;">${escapeHTML(t.nombre)}</div>
+            <div style="color:var(--mut);font-size:0.8rem;">Cliente verificado</div>
+          </div>
+        </div>
+      </div>
+    `).join('');
+
+    window.PHOTO_UI.initReveal();
+  });
+</script>
+
+<style>
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(-8px); }
+  }
+</style>
+
+</body>
+</html>

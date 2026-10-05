@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Política de Privacidad · Lumière</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { gold: '#d4a574', elev: '#15151a', soft: '#1f1f25', mut: '#9a9a9a' },
+          fontFamily: { display: ['"Playfair Display"', 'Georgia', 'serif'] }
+        }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+
+<div id="navbar-slot"></div>
+
+<!-- HEADER -->
+<section style="padding:6rem 0 3rem;background:linear-gradient(180deg,#0a0a0d 0%,#0b0b0c 100%);position:relative;">
+  <div style="position:absolute;inset:0;background-image:radial-gradient(circle at 80% 20%,rgba(212,165,116,0.08) 0%,transparent 40%);"></div>
+  <div class="container-narrow" style="position:relative;text-align:center;">
+    <span style="color:var(--gold);font-size:0.85rem;letter-spacing:0.15em;text-transform:uppercase;font-weight:500;">Documento legal</span>
+    <h1 class="font-display" style="font-size:clamp(2.5rem,5vw,4rem);color:var(--hi);margin:1rem 0;font-weight:500;">Política de Privacidad</h1>
+    <p style="color:var(--mut);font-size:0.95rem;">Última actualización: 15 de septiembre de 2026</p>
+  </div>
+</section>
+
+<section style="padding:3rem 0 5rem;">
+  <div class="container-narrow" style="display:grid;grid-template-columns:240px 1fr;gap:3rem;align-items:start;">
+
+    <aside class="reveal" style="position:sticky;top:5rem;display:none;" id="toc">
+      <div style="background:var(--elev);border:1px solid var(--line);border-radius:0.6rem;padding:1.25rem;">
+        <h4 style="color:var(--gold);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.8rem;">Contenido</h4>
+        <ol style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.5rem;font-size:0.85rem;">
+          <li><a href="#intro" style="color:var(--hi);">1. Introducción</a></li>
+          <li><a href="#datos" style="color:var(--hi);">2. Datos que recopilamos</a></li>
+          <li><a href="#finalidad" style="color:var(--hi);">3. Finalidad</a></li>
+          <li><a href="#base-legal" style="color:var(--hi);">4. Base legal</a></li>
+          <li><a href="#compartir" style="color:var(--hi);">5. Compartir datos</a></li>
+          <li><a href="#almacenamiento" style="color:var(--hi);">6. Almacenamiento</a></li>
+          <li><a href="#derechos" style="color:var(--hi);">7. Tus derechos</a></li>
+          <li><a href="#cookies" style="color:var(--hi);">8. Cookies</a></li>
+          <li><a href="#seguridad" style="color:var(--hi);">9. Seguridad</a></li>
+          <li><a href="#menores" style="color:var(--hi);">10. Menores</a></li>
+          <li><a href="#cambios" style="color:var(--hi);">11. Cambios</a></li>
+          <li><a href="#contacto" style="color:var(--hi);">12. Contacto</a></li>
+        </ol>
+      </div>
+    </aside>
+
+    <article style="color:var(--hi);line-height:1.8;font-size:1rem;" class="reveal">
+
+      <h2 id="intro" class="font-display" style="font-size:1.8rem;color:var(--gold);margin:2rem 0 1rem;font-weight:500;">1. Introducción</h2>
+      <p style="color:var(--mut);margin-bottom:1rem;">
+        En <strong style="color:var(--hi);">Lumière Studio</strong> nos comprometemos a proteger tu privacidad y la seguridad de tus datos personales. Esta Política de Privacidad explica qué datos recopilamos, cómo los utilizamos y cuáles son tus derechos al respecto.
+      </p>
+      <p style="color:var(--mut);margin-bottom:1rem;">
+        Cumplimos con la Ley N° 19.628 sobre Protección de Datos Personales de Chile y, cuando corresponde, con el Reglamento General de Protección de Datos (GDPR) de la Unión Europea.
+      </p>
+
+      <h2 id="datos" class="font-display" style="font-size:1.8rem;color:var(--gold);margin:2.5rem 0 1rem;font-weight:500;">2. Datos que recopilamos</h2>
+      <p style="color:var(--mut);margin-bottom:1rem;">
+        Recopilamos los siguientes tipos de datos personales:
+      </p>
+      <ul style="color:var(--mut);padding-left:1.5rem;margin-bottom:1rem;">
+        <li style="margin-bottom:0.5rem;"><strong style="color:var(--hi);">Datos de identificación:</strong> nombre completo, RUT/DNI, fecha de nacimiento.</li>
+        <li style="margin-bottom:0.5rem;"><strong style="color:var(--hi);">Datos de contacto:</strong> dirección de correo electrónico, teléfono, dirección postal.</li>
+        <li style="margin-bottom:0.5rem;"><strong style="color:var(--hi);">Datos de pago:</strong> información de tarjeta o cuenta bancaria (procesados por proveedores certificados PCI-DSS).</li>
+        <li style="margin-bottom:0.5rem;"><strong style="color:var(--hi);">Datos del servicio:</strong> detalles del evento o sesión, preferencias, fechas, lugares.</li>
+        <li style="margin-bottom:0.5rem;"><strong style="color:var(--hi);">Datos técnicos:</strong> dirección IP, tipo de navegador, dispositivo, páginas consultadas.</li>
+        <li style="margin-bottom:0.5rem;"><strong style="color:var(--hi);">Datos de imagen:</strong> fotografías en las que apareces o que proporcionas.</li>
+      </ul>
+
+      <h2 id="finalidad" class="font-display" style="font-size:1.8rem;color:var(--gold);margin:2.5rem 0 1rem;font-weight:500;">3. Finalidad del tratamiento</h2>
+      <p style="color:var(--mut);margin-bottom:1rem;">
+        Utilizamos tus datos personales para las siguientes finalidades:
+      </p>
+      <ul style="color:var(--mut);padding-left:1.5rem;margin-bottom:1rem;">
+        <li style="margin-bottom:0.5rem;">Gestionar tu reserva y prestarte los servicios contratados.</li>
+        <li style="margin-bottom:0.5rem;">Procesar pagos y emitir comprobantes.</li>
+        <li style="margin-bottom:0.5rem;">Comunicarnos contigo sobre el servicio (confirmaciones, recordatorios, entregas).</li>
+        <li style="margin-bottom:0.5rem;">Enviarte información comercial sobre nuevos servicios o promociones (solo si lo has autorizado).</li>
+        <li style="margin-bottom:0.5rem;">Cumplir con obligaciones legales y fiscales.</li>
+        <li style="margin-bottom:0.5rem;">Mejorar nuestro sitio web y servicios.</li>
+      </ul>
+
+      <h2 id="base-legal" class="font-display" style="font-size:1.8rem;color:var(--gold);margin:2.5rem 0 1rem;font-weight:500;">4. Base legal</h2>
+      <p style="color:var(--mut);margin-bottom:1rem;">
+        El tratamiento de tus datos se basa en:
+      </p>
+      <ul style="color:var(--mut);padding-left:1.5rem;margin-bottom:1rem;">
+        <li style="margin-bottom:0.5rem;"><strong style="color:var(--hi);">Ejecución de contrato:</strong> para gestionar la reserva y prestar el servicio.</li>
+        <li style="margin-bottom:0.5rem;"><strong style="color:var(--hi);">Consentimiento:</strong> para enviar comunicaciones comerciales o tratar datos de imagen.</li>
+        <li style="margin-bottom:0.5rem;"><strong style="color:var(--hi);">Obligación legal:</strong> para conservar facturas y registros contables.</li>
+        <li style="margin-bottom:0.5rem;"><strong style="color:var(--hi);">Interés legítimo:</strong> para mejorar nuestros servicios y prevenir fraude.</li>
+      </ul>
+
+      <h2 id="compartir" class="font-display" style="font-size:1.8rem;color:var(--gold);margin:2.5rem 0 1rem;font-weight:500;">5. Con quién compartimos tus datos</h2>
+      <p style="color:var(--mut);margin-bottom:1rem;">
+        No vendemos ni alquilamos tus datos personales. Solo los compartimos con:
+      </p>
+      <ul style="color:var(--mut);padding-left:1.5rem;margin-bottom:1rem;">
+        <li style="margin-bottom:0.5rem;"><strong style="color:var(--hi);">Proveedores de pago:</strong> para procesar transacciones (Stripe, Transbank, Mercado Pago).</li>
+        <li style="margin-bottom:0.5rem;"><strong style="color:var(--hi);">Proveedores de almacenamiento y galería:</strong> para entregarte tus fotos.</li>
+        <li style="margin-bottom:0.5rem;"><strong style="color:var(--hi);">Asistentes y colaboradores:</strong> fotógrafos y editores que participan en tu proyecto.</li>
+        <li style="margin-bottom:0.5rem;"><strong style="color:var(--hi);">Autoridades:</strong> cuando sea requerido por ley.</li>
+      </ul>
+      <p style="color:var(--mut);margin-bottom:1rem;">
+        Todos los terceros que tratan datos en nuestro nombre firman acuerdos de confidencialidad y protección de datos.
+      </p>
+
+      <h2 id="almacenamiento" class="font-display" style="font-size:1.8rem;color:var(--gold);margin:2.5rem 0 1rem;font-weight:500;">6. Período de almacenamiento</h2>
+      <p style="color:var(--mut);margin-bottom:1rem;">
+        Conservamos tus datos personales durante el tiempo necesario para cumplir con la finalidad para la que fueron recopilados y, posteriormente, durante los plazos legales aplicables:
+      </p>
+      <ul style="color:var(--mut);padding-left:1.5rem;margin-bottom:1rem;">
+        <li style="margin-bottom:0.5rem;"><strong style="color:var(--hi);">Datos de cuenta:</strong> mientras la cuenta esté activa y hasta 2 años tras su baja.</li>
+        <li style="margin-bottom:0.5rem;"><strong style="color:var(--hi);">Datos de facturación:</strong> 6 años (plazo legal).</li>
+        <li style="margin-bottom:0.5rem;"><strong style="color:var(--hi);">Fotografías:</strong> 12 meses tras la entrega, salvo solicitud de eliminación.</li>
+      </ul>
+
+      <h2 id="derechos" class="font-display" style="font-size:1.8rem;color:var(--gold);margin:2.5rem 0 1rem;font-weight:500;">7. Tus derechos</h2>
+      <p style="color:var(--mut);margin-bottom:1rem;">
+        Tienes derecho a:
+      </p>
+      <ul style="color:var(--mut);padding-left:1.5rem;margin-bottom:1rem;">
+        <li style="margin-bottom:0.5rem;"><strong style="color:var(--hi);">Acceso:</strong> conocer qué datos tratamos sobre ti.</li>
+        <li style="margin-bottom:0.5rem;"><strong style="color:var(--hi);">Rectificación:</strong> corregir datos inexactos o incompletos.</li>
+        <li style="margin-bottom:0.5rem;"><strong style="color:var(--hi);">Supresión:</strong> solicitar la eliminación de tus datos.</li>
+        <li style="margin-bottom:0.5rem;"><strong style="color:var(--hi);">Oposición:</strong> oponerte a ciertos tratamientos.</li>
+        <li style="margin-bottom:0.5rem;"><strong style="color:var(--hi);">Portabilidad:</strong> recibir tus datos en formato estructurado.</li>
+        <li style="margin-bottom:0.5rem;"><strong style="color:var(--hi);">Revocación:</strong> retirar el consentimiento otorgado en cualquier momento.</li>
+      </ul>
+      <p style="color:var(--mut);margin-bottom:1rem;">
+        Para ejercer cualquiera de estos derechos, escríbenos a <a href="mailto:privacidad@lumiere.cl" style="color:var(--gold);text-decoration:underline;">privacidad@lumiere.cl</a> adjuntando copia de tu identificación.
+      </p>
+
+      <h2 id="cookies" class="font-display" style="font-size:1.8rem;color:var(--gold);margin:2.5rem 0 1rem;font-weight:500;">8. Cookies y tecnologías similares</h2>
+      <p style="color:var(--mut);margin-bottom:1rem;">
+        Nuestro sitio web utiliza cookies para mejorar tu experiencia. Las categorías de cookies que empleamos son:
+      </p>
+      <ul style="color:var(--mut);padding-left:1.5rem;margin-bottom:1rem;">
+        <li style="margin-bottom:0.5rem;"><strong style="color:var(--hi);">Esenciales:</strong> necesarias para el funcionamiento (sesión, carrito).</li>
+        <li style="margin-bottom:0.5rem;"><strong style="color:var(--hi);">Analíticas:</strong> para entender cómo usas el sitio (Google Analytics anonimizado).</li>
+        <li style="margin-bottom:0.5rem;"><strong style="color:var(--hi);">Funcionales:</strong> para recordar tus preferencias.</li>
+      </ul>
+      <p style="color:var(--mut);margin-bottom:1rem;">
+        Puedes configurar tu navegador para rechazar todas las cookies o para que te avise cuando se envíen.
+      </p>
+
+      <h2 id="seguridad" class="font-display" style="font-size:1.8rem;color:var(--gold);margin:2.5rem 0 1rem;font-weight:500;">9. Seguridad de los datos</h2>
+      <p style="color:var(--mut);margin-bottom:1rem;">
+        Implementamos medidas técnicas y organizativas para proteger tus datos:
+      </p>
+      <ul style="color:var(--mut);padding-left:1.5rem;margin-bottom:1rem;">
+        <li style="margin-bottom:0.5rem;">Cifrado SSL/TLS en todas las comunicaciones.</li>
+        <li style="margin-bottom:0.5rem;">Contraseñas hasheadas con bcrypt.</li>
+        <li style="margin-bottom:0.5rem;">Acceso restringido al personal autorizado.</li>
+        <li style="margin-bottom:0.5rem;">Copias de seguridad cifradas.</li>
+        <li style="margin-bottom:0.5rem;">Auditorías periódicas de seguridad.</li>
+      </ul>
+
+      <h2 id="menores" class="font-display" style="font-size:1.8rem;color:var(--gold);margin:2.5rem 0 1rem;font-weight:500;">10. Datos de menores</h2>
+      <p style="color:var(--mut);margin-bottom:1rem;">
+        Nuestros servicios pueden incluir la fotografía de menores de edad (sesiones familiares, eventos infantiles). En estos casos, el tratamiento se realiza con el consentimiento del padre, madre o tutor legal. No recopilamos intencionalmente datos de menores de 14 años sin dicha autorización.
+      </p>
+
+      <h2 id="cambios" class="font-display" style="font-size:1.8rem;color:var(--gold);margin:2.5rem 0 1rem;font-weight:500;">11. Cambios en esta política</h2>
+      <p style="color:var(--mut);margin-bottom:1rem;">
+        Podemos actualizar esta Política de Privacidad periódicamente. Te notificaremos cualquier cambio significativo mediante correo electrónico o un aviso destacado en nuestro sitio web. La fecha de la última actualización siempre estará visible al inicio de este documento.
+      </p>
+
+      <h2 id="contacto" class="font-display" style="font-size:1.8rem;color:var(--gold);margin:2.5rem 0 1rem;font-weight:500;">12. Contacto</h2>
+      <p style="color:var(--mut);margin-bottom:1rem;">
+        Para cualquier consulta relacionada con la privacidad de tus datos, puedes contactar a nuestro Delegado de Protección de Datos:
+      </p>
+      <div style="background:var(--elev);border:1px solid var(--line);border-radius:0.6rem;padding:1.5rem;margin-top:1.5rem;">
+        <p style="color:var(--hi);margin-bottom:0.5rem;"><strong>Delegado de Protección de Datos</strong></p>
+        <p style="color:var(--mut);font-size:0.9rem;margin-bottom:0.3rem;">Lumière Studio · Av. Apoquindo 4501, Las Condes, Santiago</p>
+        <p style="color:var(--mut);font-size:0.9rem;margin-bottom:0.3rem;">Email: <a href="mailto:privacidad@lumiere.cl" style="color:var(--gold);">privacidad@lumiere.cl</a></p>
+        <p style="color:var(--mut);font-size:0.9rem;">Teléfono: +56 2 2345 6789</p>
+      </div>
+
+      <div style="margin-top:3rem;padding:1.25rem;background:rgba(212,165,116,0.06);border:1px solid rgba(212,165,116,0.2);border-radius:0.6rem;">
+        <p style="color:var(--mut);font-size:0.9rem;line-height:1.6;">
+          Si consideras que hemos tratado tus datos de forma inadecuada, puedes presentar una reclamación ante la Agencia de Protección de Datos Personales (o la autoridad de control competente en tu jurisdicción).
+        </p>
+      </div>
+
+    </article>
+  </div>
+</section>
+
+<div id="footer-slot"></div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/storage.js"></script>
+<script src="assets/js/ui.js"></script>
+<script src="assets/js/auth.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    if (window.innerWidth >= 768) {
+      document.getElementById('toc').style.display = 'block';
+    }
+  });
+</script>
+
+</body>
+</html>

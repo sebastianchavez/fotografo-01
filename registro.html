@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crear cuenta · Lumière</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { gold: '#d4a574', elev: '#15151a', soft: '#1f1f25', mut: '#9a9a9a' },
+          fontFamily: { display: ['"Playfair Display"', 'Georgia', 'serif'] }
+        }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <style>
+    body { background: linear-gradient(135deg,#0a0a0d 0%,#0b0b0c 100%); min-height:100vh; display:flex; flex-direction:column; }
+    .auth-shell { flex:1; display:flex; align-items:center; justify-content:center; padding:5rem 1.25rem 3rem; }
+    .auth-card { width:100%; max-width:520px; background:var(--elev); border:1px solid var(--line); border-radius:1rem; padding:2.5rem 2rem; }
+  </style>
+</head>
+<body>
+
+<div id="navbar-slot"></div>
+
+<div class="auth-shell">
+  <div class="auth-card animate-scale-in">
+    <div style="text-align:center;margin-bottom:2rem;">
+      <div style="display:inline-flex;align-items:center;gap:0.6rem;font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:600;margin-bottom:1rem;">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 12h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="4"/></svg>
+        <span>Lumière<span style="color:var(--gold)">.</span></span>
+      </div>
+      <h1 class="font-display" style="font-size:1.9rem;color:var(--hi);font-weight:500;">Crear cuenta</h1>
+      <p style="color:var(--mut);margin-top:0.5rem;font-size:0.95rem;">Únete y reserva tus sesiones en minutos</p>
+    </div>
+
+    <form id="registerForm" novalidate>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
+        <div>
+          <label class="label">Nombre completo</label>
+          <input type="text" name="nombre" class="input" placeholder="Tu nombre" autocomplete="name" required />
+          <p class="error-msg" data-error="nombre"></p>
+        </div>
+        <div>
+          <label class="label">Teléfono</label>
+          <input type="tel" name="telefono" class="input" placeholder="+56 9 1234 5678" autocomplete="tel" />
+          <p class="error-msg" data-error="telefono"></p>
+        </div>
+      </div>
+
+      <div style="margin-bottom:1rem;">
+        <label class="label">Email</label>
+        <input type="email" name="email" class="input" placeholder="tu@email.com" autocomplete="email" required />
+        <p class="error-msg" data-error="email"></p>
+      </div>
+
+      <div style="margin-bottom:1rem;">
+        <label class="label">Contraseña</label>
+        <div style="position:relative;">
+          <input type="password" name="password" id="password" class="input" placeholder="Mínimo 6 caracteres" autocomplete="new-password" required minlength="6" style="padding-right:2.75rem;" />
+          <button type="button" id="togglePwd" style="position:absolute;right:0.75rem;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--mut);cursor:pointer;padding:0.25rem;" aria-label="Ver contraseña">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <p class="error-msg" data-error="password"></p>
+      </div>
+
+      <div style="margin-bottom:1.5rem;">
+        <label class="label">Confirmar contraseña</label>
+        <input type="password" name="confirmar" id="confirmar" class="input" placeholder="Repite tu contraseña" autocomplete="new-password" required />
+        <p class="error-msg" data-error="confirmar"></p>
+      </div>
+
+      <label style="display:flex;gap:0.6rem;align-items:flex-start;color:var(--mut);font-size:0.85rem;cursor:pointer;margin-bottom:1.5rem;">
+        <input type="checkbox" name="terminos" id="terminos" style="accent-color:var(--gold);margin-top:3px;flex-shrink:0;" required />
+        <span>Acepto los <a href="terminos.html" style="color:var(--gold);">Términos y Condiciones</a> y la <a href="privacidad.html" style="color:var(--gold);">Política de Privacidad</a> de Lumière Studio.</span>
+      </label>
+      <p class="error-msg" data-error="terminos" style="margin-top:-1rem;margin-bottom:1rem;"></p>
+
+      <button type="submit" class="btn-primary" style="width:100%;justify-content:center;padding:0.85rem;">
+        Crear cuenta
+      </button>
+    </form>
+
+    <p style="text-align:center;color:var(--mut);font-size:0.95rem;margin-top:1.75rem;">
+      ¿Ya tienes cuenta? <a href="login.html" id="loginLink" style="color:var(--gold);font-weight:600;">Iniciar sesión</a>
+    </p>
+  </div>
+</div>
+
+<div id="footer-slot"></div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/storage.js"></script>
+<script src="assets/js/ui.js"></script>
+<script src="assets/js/auth.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const { toast } = window.PHOTO_UI;
+
+    if (window.PHOTO_AUTH.isLogged()) {
+      const next = window.PHOTO_AUTH.getNextParam() || 'perfil.html';
+      location.href = next;
+      return;
+    }
+
+    const next = window.PHOTO_AUTH.getNextParam();
+    if (next) {
+      document.getElementById('loginLink').href = 'login.html?next=' + encodeURIComponent(next);
+    }
+
+    const pwd = document.getElementById('password');
+    document.getElementById('togglePwd').addEventListener('click', () => {
+      const t = pwd.type === 'password' ? 'text' : 'password';
+      pwd.type = t;
+      document.getElementById('confirmar').type = t;
+    });
+
+    const form = document.getElementById('registerForm');
+    const passStrength = (p) => {
+      let s = 0;
+      if (p.length >= 6) s++;
+      if (/[A-Z]/.test(p)) s++;
+      if (/[0-9]/.test(p)) s++;
+      if (/[^A-Za-z0-9]/.test(p)) s++;
+      return s;
+    };
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(form));
+      form.querySelectorAll('[data-error]').forEach(p => p.textContent = '');
+      form.querySelectorAll('.input').forEach(i => i.classList.remove('input-error'));
+
+      let valid = true;
+      if (!data.nombre || data.nombre.length < 2) { setError('nombre', 'Ingresa tu nombre'); valid = false; }
+      if (!data.email || !/^\S+@\S+\.\S+$/.test(data.email)) { setError('email', 'Email inválido'); valid = false; }
+      if (!data.password || data.password.length < 6) { setError('password', 'Mínimo 6 caracteres'); valid = false; }
+      if (data.password !== data.confirmar) { setError('confirmar', 'Las contraseñas no coinciden'); valid = false; }
+      if (!data.terminos) { setError('terminos', 'Debes aceptar los términos'); valid = false; }
+
+      if (!valid) return;
+
+      const btn = form.querySelector('button[type="submit"]');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="loader"></span> Creando cuenta...';
+
+      setTimeout(() => {
+        try {
+          const u = window.PHOTO_AUTH.register(data);
+          btn.innerHTML = 'Crear cuenta';
+          btn.disabled = false;
+          toast('Cuenta creada. Bienvenido/a ' + u.nombre.split(' ')[0], 'success', 4500);
+          setTimeout(() => location.href = next || 'perfil.html', 900);
+        } catch (err) {
+          btn.disabled = false;
+          btn.innerHTML = 'Crear cuenta';
+          toast(err.message, 'error', 4500);
+        }
+      }, 1000);
+    });
+
+    function setError(name, msg) {
+      const i = form.querySelector(`[name="${name}"]`);
+      if (i) i.classList.add('input-error');
+      const p = form.querySelector(`[data-error="${name}"]`);
+      if (p) p.textContent = msg;
+    }
+  });
+</script>
+
+</body>
+</html>

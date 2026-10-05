@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Detalle de reserva · Lumière</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { gold: '#d4a574', elev: '#15151a', soft: '#1f1f25', mut: '#9a9a9a' },
+          fontFamily: { display: ['"Playfair Display"', 'Georgia', 'serif'] }
+        }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+
+<div id="navbar-slot"></div>
+
+<section style="padding:3rem 0 1rem;">
+  <div class="container-narrow">
+    <a href="perfil.html" style="color:var(--mut);font-size:0.85rem;display:inline-flex;align-items:center;gap:0.4rem;margin-bottom:1rem;">← Volver a mi perfil</a>
+    <div id="header-area"></div>
+  </div>
+</section>
+
+<section style="padding:1rem 0 5rem;">
+  <div class="container-narrow" style="display:grid;grid-template-columns:1fr 320px;gap:2rem;align-items:start;">
+    <div id="main-content"></div>
+
+    <aside style="display:flex;flex-direction:column;gap:1rem;position:sticky;top:5rem;">
+      <div id="actions"></div>
+      <div id="contact-card"></div>
+    </aside>
+  </div>
+</section>
+
+<div id="footer-slot"></div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/storage.js"></script>
+<script src="assets/js/ui.js"></script>
+<script src="assets/js/auth.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    if (!window.PHOTO_AUTH.isLogged()) {
+      location.href = 'login.html';
+      return;
+    }
+
+    const { escapeHTML, formatMoney, formatDate, toast, confirm } = window.PHOTO_UI;
+    const sess = window.PHOTO_AUTH.session();
+
+    const id = new URLSearchParams(location.search).get('id');
+    let reserva = id ? window.PHOTO_STORE.Reservas.byId(id) : null;
+
+    if (!reserva || reserva.userId !== sess.id) {
+      document.getElementById('main-content').innerHTML = `
+        <div style="background:var(--elev);border:1px solid var(--line);border-radius:1rem;padding:3rem 2rem;text-align:center;">
+          <h2 class="font-display" style="font-size:1.5rem;color:var(--hi);font-weight:500;">Reserva no encontrada</h2>
+          <p style="color:var(--mut);margin-top:0.75rem;">La reserva que buscas no existe o no te pertenece.</p>
+          <a href="perfil.html" class="btn-primary" style="margin-top:1.5rem;">Ir a mi perfil</a>
+        </div>`;
+      return;
+    }
+
+    const estados = {
+      pendiente: { label: 'Pago pendiente', cls: 'badge-pendiente', desc: 'La reserva está creada pero falta el pago de la seña para confirmarla.' },
+      confirmada: { label: 'Confirmada', cls: 'badge-confirmada', desc: 'Reserva confirmada y seña recibida. Te contactaremos antes de la sesión.' },
+      completada: { label: 'Completada', cls: 'badge-completada', desc: 'La sesión ya fue realizada. Próximamente recibirás tu galería.' },
+      cancelada: { label: 'Cancelada', cls: 'badge-cancelada', desc: 'Reserva cancelada. Para volver a reservar, contáctanos.' },
+      'no-show': { label: 'No se presentó', cls: 'badge-no-show', desc: 'No te presentaste a la sesión sin aviso. Contacta para reagendar.' }
+    };
+    const e = estados[reserva.estado];
+
+    // HEADER
+    document.getElementById('header-area').innerHTML = `
+      <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;align-items:start;">
+        <div>
+          <span style="color:var(--mut);font-size:0.85rem;text-transform:uppercase;letter-spacing:0.08em;">Reserva</span>
+          <h1 class="font-display" style="font-size:clamp(1.8rem,4vw,2.5rem);color:var(--hi);font-weight:500;font-family:monospace;margin-top:0.3rem;">${reserva.id}</h1>
+        </div>
+        <span class="badge ${e.cls}" style="font-size:0.85rem;padding:0.5rem 1rem;">${escapeHTML(e.label)}</span>
+      </div>
+    `;
+
+    // MAIN
+    const main = document.getElementById('main-content');
+    main.innerHTML = `
+      <div style="background:var(--elev);border:1px solid var(--line);border-radius:1rem;overflow:hidden;">
+        <div style="padding:1.75rem;background:rgba(212,165,116,0.05);border-bottom:1px solid var(--line);">
+          <div style="display:flex;gap:1rem;align-items:center;">
+            <div style="width:48px;height:48px;background:rgba(212,165,116,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 12h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="4"/></svg>
+            </div>
+            <div>
+              <div style="font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--hi);font-weight:500;">${escapeHTML(reserva.servicio)}</div>
+              <div style="color:var(--gold);font-size:0.9rem;">${escapeHTML(reserva.paquete || '—')}</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="padding:1.75rem;display:flex;flex-direction:column;gap:1rem;">
+          <h3 style="color:var(--gold);font-size:0.8rem;text-transform:uppercase;letter-spacing:0.1em;">Detalles</h3>
+          ${detalleItem('Fecha', formatDate(reserva.fecha))}
+          ${detalleItem('Hora', reserva.hora + ' hrs')}
+          ${detalleItem('Duración', reserva.duracion || '—')}
+          ${detalleItem('Lugar', reserva.lugar)}
+          ${reserva.direccion ? detalleItem('Dirección', reserva.direccion) : ''}
+          ${reserva.notas ? detalleItem('Notas', reserva.notas) : ''}
+        </div>
+
+        ${reserva.pago ? `
+          <div style="padding:1.75rem;border-top:1px solid var(--line);">
+            <h3 style="color:var(--gold);font-size:0.8rem;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:1rem;">Información de pago</h3>
+            ${detalleItem('Método', reserva.pago.metodo === 'tarjeta' ? 'Tarjeta de crédito' : reserva.pago.metodo)}
+            ${reserva.pago.ult4 ? detalleItem('Tarjeta', '•••• ' + reserva.pago.ult4) : ''}
+            ${detalleItem('Referencia', reserva.pago.referencia)}
+            ${detalleItem('Fecha de pago', new Date(reserva.pago.fecha).toLocaleString('es-CL', { dateStyle: 'long', timeStyle: 'short' }))}
+          </div>
+        ` : ''}
+
+        <div style="padding:1.5rem 1.75rem;border-top:1px solid var(--line);background:var(--base);">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;">
+            <span style="color:var(--mut);">Total reserva</span>
+            <span style="font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--gold);font-weight:600;">${formatMoney(reserva.precio)}</span>
+          </div>
+          ${reserva.pago ? `
+            <div style="display:flex;justify-content:space-between;margin-top:0.5rem;">
+              <span style="color:var(--mut);font-size:0.85rem;">Seña abonada</span>
+              <span style="color:var(--hi);font-size:0.85rem;">${formatMoney(Math.round(reserva.precio * 0.5))}</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;margin-top:0.25rem;">
+              <span style="color:var(--mut);font-size:0.85rem;">Saldo pendiente</span>
+              <span style="color:var(--hi);font-size:0.85rem;">${formatMoney(reserva.precio - Math.round(reserva.precio * 0.5))}</span>
+            </div>
+          ` : `
+            <p style="color:var(--mut);font-size:0.85rem;margin-top:0.5rem;">Seña requerida: <strong style="color:var(--hi);">${formatMoney(Math.round(reserva.precio * 0.5))}</strong></p>
+          `}
+        </div>
+      </div>
+
+      <div style="margin-top:1.5rem;padding:1.25rem;background:rgba(212,165,116,0.06);border:1px solid rgba(212,165,116,0.25);border-radius:0.6rem;display:flex;gap:0.85rem;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" style="flex-shrink:0;margin-top:2px;"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+        <div>
+          <strong style="color:var(--hi);font-size:0.95rem;">Estado actual</strong>
+          <p style="color:var(--mut);font-size:0.9rem;margin-top:0.25rem;line-height:1.5;">${escapeHTML(e.desc)}</p>
+        </div>
+      </div>
+    `;
+
+    function detalleItem(label, value) {
+      return `
+        <div style="display:flex;justify-content:space-between;gap:1rem;padding-bottom:0.75rem;border-bottom:1px solid var(--line);">
+          <span style="color:var(--mut);font-size:0.9rem;flex-shrink:0;">${label}</span>
+          <strong style="color:var(--hi);text-align:right;font-size:0.95rem;">${escapeHTML(String(value))}</strong>
+        </div>`;
+    }
+
+    // ACTIONS
+    const actionsEl = document.getElementById('actions');
+    let actionsHtml = '<div style="background:var(--elev);border:1px solid var(--line);border-radius:1rem;padding:1.5rem;"><h3 style="color:var(--gold);font-size:0.8rem;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:1rem;">Acciones</h3><div style="display:flex;flex-direction:column;gap:0.5rem;">';
+
+    if (reserva.estado === 'pendiente') {
+      actionsHtml += `<a href="pago.html?id=${reserva.id}" class="btn-primary" style="justify-content:center;padding:0.7rem;font-size:0.9rem;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg>
+        Pagar seña
+      </a>`;
+    }
+    if (reserva.estado === 'pendiente' || reserva.estado === 'confirmada') {
+      actionsHtml += `<button id="btnAnular" class="btn-secondary" style="justify-content:center;padding:0.7rem;font-size:0.9rem;color:#e57268;border-color:rgba(192,57,43,0.4);">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6M9 9l6 6"/></svg>
+        Anular cita
+      </button>`;
+    }
+    if (reserva.estado === 'completada' || reserva.estado === 'cancelada' || reserva.estado === 'no-show') {
+      actionsHtml += `<a href="reservar.html" class="btn-primary" style="justify-content:center;padding:0.7rem;font-size:0.9rem;">Reservar de nuevo</a>`;
+    }
+
+    actionsHtml += '</div></div>';
+    actionsEl.innerHTML = actionsHtml;
+
+    // Contact card
+    document.getElementById('contact-card').innerHTML = `
+      <div style="background:var(--elev);border:1px solid var(--line);border-radius:1rem;padding:1.5rem;">
+        <h3 style="color:var(--gold);font-size:0.8rem;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:1rem;">¿Necesitas ayuda?</h3>
+        <p style="color:var(--mut);font-size:0.9rem;line-height:1.6;margin-bottom:1rem;">Contáctanos y te ayudaremos con cualquier cambio o consulta.</p>
+        <div style="display:flex;flex-direction:column;gap:0.5rem;">
+          <a href="tel:+56223456789" style="display:flex;align-items:center;gap:0.5rem;color:var(--hi);font-size:0.9rem;text-decoration:none;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            +56 2 2345 6789
+          </a>
+          <a href="https://wa.me/56912345678" target="_blank" style="display:flex;align-items:center;gap:0.5rem;color:var(--gold);font-size:0.9rem;text-decoration:none;font-weight:500;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+            WhatsApp
+          </a>
+          <a href="mailto:hola@lumiere.cl" style="display:flex;align-items:center;gap:0.5rem;color:var(--hi);font-size:0.9rem;text-decoration:none;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg>
+            hola@lumiere.cl
+          </a>
+        </div>
+      </div>
+    `;
+
+    // Anular handler
+    const btnAnular = document.getElementById('btnAnular');
+    if (btnAnular) {
+      btnAnular.addEventListener('click', async () => {
+        const ok = await confirm({
+          title: '¿Anular esta reserva?',
+          message: 'Esta acción no se puede deshacer. Si hay políticas de reembolso aplicables, las verás reflejadas en tu cuenta.',
+          confirmText: 'Sí, anular',
+          danger: true
+        });
+        if (!ok) return;
+
+        // Modal motivo
+        const motivoModal = window.PHOTO_UI.modal({
+          title: 'Motivo de cancelación (opcional)',
+          body: `<textarea id="motivoTxt" class="input" rows="3" placeholder="Cuéntanos por qué cancelas..."></textarea>`,
+          footer:
+            '<button class="btn-ghost" data-modal-cancel>Saltar</button>' +
+            '<button class="btn-primary" style="background:var(--danger);color:#fff;" data-modal-confirm>Confirmar cancelación</button>',
+          onConfirm: () => {
+              const txt = document.getElementById('motivoTxt')?.value || '';
+              window.PHOTO_STORE.Reservas.cancelar(reserva.id, txt);
+              motivoModal.close();
+              toast('Reserva anulada', 'success');
+              setTimeout(() => location.reload(), 700);
+            }
+        });
+        motivoModal.el.querySelector('[data-modal-cancel]').addEventListener('click', () => motivoModal.close());
+      });
+    }
+  });
+</script>
+
+</body>
+</html>

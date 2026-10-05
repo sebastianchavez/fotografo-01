@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pago de reserva · Lumière</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { gold: '#d4a574', elev: '#15151a', soft: '#1f1f25', mut: '#9a9a9a' },
+          fontFamily: { display: ['"Playfair Display"', 'Georgia', 'serif'] }
+        }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+
+<div id="navbar-slot"></div>
+
+<section style="padding:4rem 0 1rem;">
+  <div class="container-narrow">
+    <a href="confirmacion.html?id=RES-PLACEHOLDER" id="backLink" style="color:var(--mut);font-size:0.85rem;display:inline-flex;align-items:center;gap:0.4rem;margin-bottom:1rem;">← Volver a la reserva</a>
+    <h1 class="font-display" style="font-size:clamp(1.8rem,4vw,2.5rem);color:var(--hi);font-weight:500;">Completa el pago</h1>
+    <p style="color:var(--mut);margin-top:0.5rem;">Asegura tu seña para confirmar la reserva</p>
+  </div>
+</section>
+
+<section style="padding:1rem 0 5rem;">
+  <div class="container-narrow" style="display:grid;grid-template-columns:1fr 360px;gap:2.5rem;align-items:start;">
+
+    <!-- FORMULARIO -->
+    <div>
+      <!-- Métodos de pago -->
+      <div style="background:var(--elev);border:1px solid var(--line);border-radius:1rem;padding:1.75rem;margin-bottom:1.5rem;">
+        <h2 style="font-family:'Playfair Display',serif;font-size:1.25rem;color:var(--hi);margin-bottom:1rem;font-weight:500;">Método de pago</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:0.75rem;">
+          <button data-metodo="tarjeta" class="metodo-btn" style="padding:1rem;background:var(--base);border:1.5px solid var(--gold);border-radius:0.6rem;cursor:pointer;text-align:left;display:flex;align-items:center;gap:0.75rem;color:var(--hi);">
+            <svg width="32" height="22" viewBox="0 0 32 22" fill="none"><rect x="0.5" y="0.5" width="31" height="21" rx="3" stroke="var(--gold)"/><rect x="0.5" y="6" width="31" height="4" fill="var(--gold)"/></svg>
+            <span style="font-weight:500;font-size:0.9rem;">Tarjeta</span>
+          </button>
+          <button data-metodo="transferencia" class="metodo-btn" style="padding:1rem;background:var(--base);border:1.5px solid var(--line);border-radius:0.6rem;cursor:pointer;text-align:left;display:flex;align-items:center;gap:0.75rem;color:var(--hi);">
+            <svg width="28" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+            <span style="font-weight:500;font-size:0.9rem;">Transferencia</span>
+          </button>
+          <button data-metodo="efectivo" class="metodo-btn" style="padding:1rem;background:var(--base);border:1.5px solid var(--line);border-radius:0.6rem;cursor:pointer;text-align:left;display:flex;align-items:center;gap:0.75rem;color:var(--hi);">
+            <svg width="28" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="3"/></svg>
+            <span style="font-weight:500;font-size:0.9rem;">Efectivo</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- FORM TARJETA -->
+      <form id="pagoForm" novalidate style="background:var(--elev);border:1px solid var(--line);border-radius:1rem;padding:1.75rem;">
+        <h2 style="font-family:'Playfair Display',serif;font-size:1.25rem;color:var(--hi);margin-bottom:1rem;font-weight:500;">Datos de pago</h2>
+
+        <div style="margin-bottom:1rem;">
+          <label class="label">Nombre del titular</label>
+          <input type="text" name="nombre" class="input" placeholder="Como aparece en la tarjeta" required />
+          <p class="error-msg" data-error="nombre"></p>
+        </div>
+
+        <div style="margin-bottom:1rem;">
+          <label class="label">Número de tarjeta</label>
+          <div style="position:relative;">
+            <input type="text" name="numero" id="numero" class="input" placeholder="1234 5678 9012 3456" maxlength="19" required style="padding-right:3rem;" />
+            <span id="cardBrand" style="position:absolute;right:0.75rem;top:50%;transform:translateY(-50%);font-size:0.75rem;font-weight:700;color:var(--gold);"></span>
+          </div>
+          <p class="error-msg" data-error="numero"></p>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem;">
+          <div>
+            <label class="label">Vencimiento</label>
+            <input type="text" name="expiry" id="expiry" class="input" placeholder="MM/AA" maxlength="5" required />
+            <p class="error-msg" data-error="expiry"></p>
+          </div>
+          <div>
+            <label class="label">CVV</label>
+            <input type="text" name="cvv" id="cvv" class="input" placeholder="123" maxlength="4" required />
+            <p class="error-msg" data-error="cvv"></p>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:0.6rem;align-items:center;color:var(--mut);font-size:0.8rem;margin-bottom:1.5rem;padding:0.75rem 1rem;background:var(--base);border:1px solid var(--line);border-radius:0.5rem;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Tu información está cifrada y protegida.
+        </div>
+
+        <button type="submit" id="btnPagar" class="btn-primary" style="width:100%;justify-content:center;padding:1rem;font-size:1rem;">
+          Pagar <span id="montoBtn">$0</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </button>
+      </form>
+
+      <!-- TRANSFERENCIA INFO (oculto por defecto) -->
+      <div id="transferenciaInfo" style="display:none;background:var(--elev);border:1px solid var(--line);border-radius:1rem;padding:1.75rem;margin-top:1.5rem;">
+        <h2 style="font-family:'Playfair Display',serif;font-size:1.25rem;color:var(--hi);margin-bottom:1rem;font-weight:500;">Datos para transferencia</h2>
+        <div style="background:var(--base);border:1px solid var(--line);border-radius:0.6rem;padding:1.25rem;font-family:monospace;font-size:0.9rem;line-height:1.8;">
+          <div style="display:flex;justify-content:space-between;"><span style="color:var(--mut);">Banco:</span><strong>Banco Lumière</strong></div>
+          <div style="display:flex;justify-content:space-between;"><span style="color:var(--mut);">Tipo:</span><strong>Cuenta Corriente</strong></div>
+          <div style="display:flex;justify-content:space-between;"><span style="color:var(--mut);">N°:</span><strong>123-45678-90</strong></div>
+          <div style="display:flex;justify-content:space-between;"><span style="color:var(--mut);">RUT:</span><strong>76.123.456-7</strong></div>
+          <div style="display:flex;justify-content:space-between;"><span style="color:var(--mut);">Nombre:</span><strong>Lumière SpA</strong></div>
+          <div style="display:flex;justify-content:space-between;"><span style="color:var(--mut);">Email:</span><strong>pagos@lumiere.cl</strong></div>
+        </div>
+        <p style="color:var(--mut);font-size:0.85rem;margin-top:1rem;line-height:1.6;">
+          Una vez realizada la transferencia, envíanos el comprobante a <a href="mailto:pagos@lumiere.cl" style="color:var(--gold);">pagos@lumiere.cl</a> indicando tu código de reserva.
+        </p>
+      </div>
+
+      <!-- EFECTIVO INFO -->
+      <div id="efectivoInfo" style="display:none;background:var(--elev);border:1px solid var(--line);border-radius:1rem;padding:1.75rem;margin-top:1.5rem;">
+        <h2 style="font-family:'Playfair Display',serif;font-size:1.25rem;color:var(--hi);margin-bottom:1rem;font-weight:500;">Pago en efectivo</h2>
+        <p style="color:var(--mut);font-size:0.95rem;line-height:1.7;">Puedes pagar en efectivo el día de tu sesión en nuestro estudio. Para confirmar la reserva se requiere el 50% de seña mediante otro medio de pago.</p>
+      </div>
+    </div>
+
+    <!-- RESUMEN STICKY -->
+    <aside style="background:var(--elev);border:1px solid var(--line);border-radius:1rem;padding:1.75rem;position:sticky;top:5rem;">
+      <h3 style="color:var(--gold);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:1rem;">Resumen</h3>
+      <div id="resumen" style="display:flex;flex-direction:column;gap:0.85rem;font-size:0.9rem;"></div>
+
+      <div style="border-top:1px solid var(--line);margin-top:1.5rem;padding-top:1.5rem;">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.4rem;">
+          <span style="color:var(--mut);font-size:0.9rem;">Total reserva</span>
+          <span id="total" style="color:var(--hi);font-weight:500;">$0</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.85rem;">
+          <span style="color:var(--mut);font-size:0.9rem;">A pagar ahora</span>
+          <span id="aPagar" style="font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--gold);font-weight:600;">$0</span>
+        </div>
+        <p style="color:var(--mut);font-size:0.75rem;line-height:1.4;">Saldo a pagar el día de la sesión: <strong style="color:var(--hi);" id="saldo">$0</strong></p>
+      </div>
+
+      <div style="margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid var(--line);display:flex;align-items:center;gap:0.5rem;color:var(--mut);font-size:0.75rem;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Pago 100% seguro
+      </div>
+    </aside>
+  </div>
+</section>
+
+<div id="footer-slot"></div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/storage.js"></script>
+<script src="assets/js/ui.js"></script>
+<script src="assets/js/auth.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    if (!window.PHOTO_AUTH.isLogged()) {
+      location.href = 'login.html?next=pago.html';
+      return;
+    }
+
+    const { escapeHTML, formatMoney, formatDate, toast } = window.PHOTO_UI;
+
+    const id = new URLSearchParams(location.search).get('id');
+    const reserva = id ? window.PHOTO_STORE.Reservas.byId(id) : null;
+    if (!reserva) {
+      location.href = 'perfil.html';
+      return;
+    }
+    if (reserva.estado === 'confirmada') {
+      location.href = 'pago-confirmacion.html?id=' + reserva.id;
+      return;
+    }
+
+    document.getElementById('backLink').href = 'confirmacion.html?id=' + reserva.id;
+
+    const senia = Math.round(reserva.precio * 0.5);
+    document.getElementById('total').textContent = formatMoney(reserva.precio);
+    document.getElementById('aPagar').textContent = formatMoney(senia);
+    document.getElementById('saldo').textContent = formatMoney(reserva.precio - senia);
+    document.getElementById('montoBtn').textContent = formatMoney(senia);
+
+    document.getElementById('resumen').innerHTML = `
+      <div style="display:flex;justify-content:space-between;"><span style="color:var(--mut);">Reserva</span><strong style="color:var(--hi);font-family:monospace;">${reserva.id}</strong></div>
+      <div style="display:flex;justify-content:space-between;"><span style="color:var(--mut);">Servicio</span><strong style="color:var(--hi);text-align:right;max-width:60%;">${escapeHTML(reserva.servicio)}</strong></div>
+      <div style="display:flex;justify-content:space-between;"><span style="color:var(--mut);">Paquete</span><strong style="color:var(--hi);">${escapeHTML(reserva.paquete || '—')}</strong></div>
+      <div style="display:flex;justify-content:space-between;"><span style="color:var(--mut);">Fecha</span><strong style="color:var(--hi);">${formatDate(reserva.fecha)}</strong></div>
+      <div style="display:flex;justify-content:space-between;"><span style="color:var(--mut);">Hora</span><strong style="color:var(--hi);">${escapeHTML(reserva.hora)} hrs</strong></div>
+    `;
+
+    let metodoActivo = 'tarjeta';
+    const metodoBtns = document.querySelectorAll('.metodo-btn');
+    const tarjetaForm = document.getElementById('pagoForm');
+    const transfInfo = document.getElementById('transferenciaInfo');
+    const efectivoInfo = document.getElementById('efectivoInfo');
+
+    metodoBtns.forEach(b => {
+      b.addEventListener('click', () => {
+        metodoActivo = b.dataset.metodo;
+        metodoBtns.forEach(x => x.style.borderColor = 'var(--line)');
+        b.style.borderColor = 'var(--gold)';
+        tarjetaForm.style.display = metodoActivo === 'tarjeta' ? 'block' : 'none';
+        transfInfo.style.display = metodoActivo === 'transferencia' ? 'block' : 'none';
+        efectivoInfo.style.display = metodoActivo === 'efectivo' ? 'block' : 'none';
+      });
+    });
+
+    // Formatear inputs
+    document.getElementById('numero').addEventListener('input', (e) => {
+      let v = e.target.value.replace(/\D/g, '').slice(0, 16);
+      v = v.replace(/(.{4})/g, '$1 ').trim();
+      e.target.value = v;
+      const brand = v.startsWith('4') ? 'VISA' : (v.startsWith('5') ? 'MC' : (v.startsWith('3') ? 'AMEX' : ''));
+      document.getElementById('cardBrand').textContent = brand;
+    });
+
+    document.getElementById('expiry').addEventListener('input', (e) => {
+      let v = e.target.value.replace(/\D/g, '').slice(0, 4);
+      if (v.length >= 3) v = v.slice(0,2) + '/' + v.slice(2);
+      e.target.value = v;
+    });
+
+    document.getElementById('cvv').addEventListener('input', (e) => {
+      e.target.value = e.target.value.replace(/\D/g, '').slice(0, 4);
+    });
+
+    // Submit
+    tarjetaForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(tarjetaForm));
+      tarjetaForm.querySelectorAll('[data-error]').forEach(p => p.textContent = '');
+      tarjetaForm.querySelectorAll('.input').forEach(i => i.classList.remove('input-error'));
+
+      let valid = true;
+      if (!data.nombre || data.nombre.length < 3) { setError('nombre', 'Ingresa el nombre del titular'); valid = false; }
+      const numLimpio = (data.numero || '').replace(/\s/g, '');
+      if (numLimpio.length < 13 || numLimpio.length > 16) { setError('numero', 'Número inválido'); valid = false; }
+      if (!/^\d{2}\/\d{2}$/.test(data.expiry)) { setError('expiry', 'Formato MM/AA'); valid = false; }
+      else {
+        const [mm, aa] = data.expiry.split('/').map(Number);
+        if (mm < 1 || mm > 12) { setError('expiry', 'Mes inválido'); valid = false; }
+        const now = new Date();
+        const expDate = new Date(2000 + aa, mm);
+        if (expDate < now) { setError('expiry', 'Tarjeta vencida'); valid = false; }
+      }
+      if (!data.cvv || data.cvv.length < 3) { setError('cvv', 'CVV inválido'); valid = false; }
+
+      if (!valid) return;
+
+      const btn = document.getElementById('btnPagar');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="loader"></span> Procesando...';
+
+      setTimeout(() => {
+        try {
+          const pagoInfo = {
+            metodo: 'tarjeta',
+            ult4: numLimpio.slice(-4),
+            referencia: 'PAY-' + Math.random().toString(36).slice(2,9).toUpperCase(),
+            fecha: new Date().toISOString(),
+            nombre: data.nombre
+          };
+          window.PHOTO_STORE.Reservas.setPago(reserva.id, pagoInfo);
+          location.href = 'pago-confirmacion.html?id=' + reserva.id;
+        } catch (err) {
+          btn.disabled = false;
+          btn.innerHTML = 'Pagar <span id="montoBtn">' + formatMoney(senia) + '</span> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>';
+          toast(err.message, 'error');
+        }
+      }, 1800);
+    });
+
+    function setError(name, msg) {
+      const i = tarjetaForm.querySelector(`[name="${name}"]`);
+      if (i) i.classList.add('input-error');
+      const p = tarjetaForm.querySelector(`[data-error="${name}"]`);
+      if (p) p.textContent = msg;
+    }
+  });
+</script>
+
+</body>
+</html>
