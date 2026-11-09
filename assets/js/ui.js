@@ -19,7 +19,7 @@ window.PHOTO_UI = (function () {
   }
 
   function formatMoney(n) {
-    return new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 })
+    return new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP', maximumFractionDigits: 0 })
       .format(Number(n) || 0);
   }
 
@@ -222,7 +222,7 @@ window.PHOTO_UI = (function () {
     } else if (!isAuthPage) {
       right =
         '<a href="login.html" class="btn-ghost hidden sm:inline-flex">Ingresar</a>' +
-        '<a href="registro.html" class="btn-primary" style="padding:0.55rem 1.25rem;font-size:0.9rem;">Registrarse</a>';
+        '<a href="registro.html" class="btn-primary nav-register" style="padding:0.55rem 1.25rem;font-size:0.9rem;">Registrarse</a>';
     } else {
       right = '<a href="index.html" class="btn-ghost">← Inicio</a>';
     }
@@ -237,11 +237,11 @@ window.PHOTO_UI = (function () {
       '      </svg>' +
       '      <span>Lumière<span style="color:var(--gold)">.</span></span>' +
       '    </a>' +
-      '    <nav class="hidden md:flex" style="gap:2rem;">' +
+      '    <nav class="hidden lg:flex" style="gap:2rem;">' +
       links.map(l => '<a href="' + l.href + '" class="nav-link ' + (cp === l.key ? 'active' : '') + '">' + l.label + '</a>').join('') +
       '    </nav>' +
       '    <div style="display:flex;align-items:center;gap:0.5rem;">' +
-      '      <button id="mobileBtn" class="md:hidden" style="background:none;border:none;color:var(--hi);cursor:pointer;padding:0.5rem;" aria-label="Menú">' +
+      '      <button id="mobileBtn" class="lg:hidden" style="background:none;border:none;color:var(--hi);cursor:pointer;padding:0.5rem;" aria-label="Menú">' +
       '        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>' +
       '      </button>' +
       right +

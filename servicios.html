@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es-CL">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -36,7 +36,7 @@
 
 <section class="section">
   <div class="container-narrow">
-    <div id="serviciosGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.75rem;"></div>
+    <div id="serviciosGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:1.75rem;"></div>
   </div>
 </section>
 
@@ -114,10 +114,10 @@
           <ul style="list-style:none;padding:0;margin:0 0 1.25rem 0;display:flex;flex-direction:column;gap:0.4rem;">
             ${s.incluye.map(i => `<li style="display:flex;align-items:center;gap:0.5rem;color:var(--hi);font-size:0.85rem;"><span style="color:var(--gold);">✓</span>${escapeHTML(i)}</li>`).join('')}
           </ul>
-          <div style="display:flex;justify-content:space-between;align-items:center;padding-top:1rem;border-top:1px solid var(--line);">
+          <div style="display:flex;flex-wrap:wrap;gap:1rem;justify-content:space-between;align-items:center;padding-top:1rem;border-top:1px solid var(--line);">
             <div>
               <span style="color:var(--mut);font-size:0.8rem;">Desde</span>
-              <div style="color:var(--gold);font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:600;">$${s.desde}</div>
+              <div style="color:var(--gold);font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:600;">${window.PHOTO_UI.formatMoney(s.desde)}</div>
             </div>
             <a href="reservar.html?servicio=${s.id}" class="btn-primary" style="padding:0.5rem 1.25rem;font-size:0.85rem;">Reservar</a>
           </div>

@@ -10,7 +10,7 @@ window.PHOTO_DATA = (function () {
       id: 'bodas',
       nombre: 'Bodas',
       descripcion: 'Cobertura completa del día más importante. Estilo documental con dirección sutil.',
-      desde: 1500,
+      desde: 1350000,
       img: 'assets/img/service-bodas.jpg',
       destacado: true,
       incluye: ['Ceremonia y recepción', 'Edición profesional', 'Galería privada']
@@ -19,7 +19,7 @@ window.PHOTO_DATA = (function () {
       id: 'retratos',
       nombre: 'Retratos',
       descripcion: 'Sesiones en estudio o exteriores. Iluminación cinematográfica y dirección artística.',
-      desde: 250,
+      desde: 225000,
       img: 'assets/img/service-retratos.jpg',
       destacado: false,
       incluye: ['30-60 min de sesión', '10 fotos editadas', 'Resolución alta']
@@ -28,7 +28,7 @@ window.PHOTO_DATA = (function () {
       id: 'eventos',
       nombre: 'Eventos',
       descripcion: 'Cobertura para eventos corporativos, lanzamientos, conferencias y fiestas privadas.',
-      desde: 800,
+      desde: 720000,
       img: 'assets/img/service-eventos.jpg',
       destacado: false,
       incluye: ['Cobertura por horas', 'Foto + video opcional', 'Entrega en 72h']
@@ -37,7 +37,7 @@ window.PHOTO_DATA = (function () {
       id: 'producto',
       nombre: 'Producto',
       descripcion: 'Fotografía comercial para catálogos, e-commerce y redes sociales. Fondo blanco o lifestyle.',
-      desde: 350,
+      desde: 315000,
       img: 'assets/img/service-producto.jpg',
       destacado: false,
       incluye: ['Estudio con cyclorama', '5 productos incluidos', 'Archivos PSD opcionales']
@@ -46,7 +46,7 @@ window.PHOTO_DATA = (function () {
       id: 'familia',
       nombre: 'Familia',
       descripcion: 'Sesiones naturales en exteriores o en tu hogar. Capturamos la esencia de tu familia.',
-      desde: 180,
+      desde: 162000,
       img: 'assets/img/service-familia.jpg',
       destacado: true,
       incluye: ['1h de sesión', '15 fotos editadas', 'Impresión 20x30']
@@ -55,7 +55,7 @@ window.PHOTO_DATA = (function () {
       id: 'maternidad',
       nombre: 'Maternidad',
       descripcion: 'Sesiones íntimas que celebran la espera. Estudio preparado o en tu hogar.',
-      desde: 280,
+      desde: 252000,
       img: 'assets/img/service-maternidad.jpg',
       destacado: false,
       incluye: ['1.5h de sesión', 'Vestuario incluido', '12 fotos editadas']
@@ -66,7 +66,7 @@ window.PHOTO_DATA = (function () {
     bodas: [
       {
         nombre: 'Silver',
-        precio: 1500,
+        precio: 1350000,
         items: [
           '4 horas de cobertura',
           '200 fotos editadas',
@@ -78,7 +78,7 @@ window.PHOTO_DATA = (function () {
       },
       {
         nombre: 'Gold',
-        precio: 2800,
+        precio: 2520000,
         featured: true,
         items: [
           '6 horas de cobertura',
@@ -92,7 +92,7 @@ window.PHOTO_DATA = (function () {
       },
       {
         nombre: 'Platinum',
-        precio: 4500,
+        precio: 4050000,
         items: [
           '8 horas de cobertura',
           '600 fotos editadas',
@@ -105,39 +105,39 @@ window.PHOTO_DATA = (function () {
       }
     ],
     retratos: [
-      { nombre: 'Sesión 30 min', precio: 250, items: ['30 min de sesión', '10 fotos editadas', 'Galería digital'] },
-      { nombre: 'Sesión 1h', precio: 380, items: ['1h de sesión', '20 fotos editadas', 'Galería digital', 'Asesoría de styling'] },
-      { nombre: 'Sesión 2h', precio: 580, items: ['2h de sesión', '35 fotos editadas', 'Galería digital', 'Cambio de look'] }
+      { nombre: 'Sesión 30 min', precio: 225000, items: ['30 min de sesión', '10 fotos editadas', 'Galería digital'] },
+      { nombre: 'Sesión 1h', precio: 342000, items: ['1h de sesión', '20 fotos editadas', 'Galería digital', 'Asesoría de styling'] },
+      { nombre: 'Sesión 2h', precio: 522000, items: ['2h de sesión', '35 fotos editadas', 'Galería digital', 'Cambio de look'] }
     ],
     eventos: [
-      { nombre: 'Medio día', precio: 800, items: ['4 horas', '150 fotos', 'Entrega 72h'] },
-      { nombre: 'Día completo', precio: 1400, items: ['8 horas', '300 fotos', 'Entrega 72h', 'Asistente'] },
-      { nombre: 'Corporativo Premium', precio: 2200, items: ['Cobertura + video', 'Equipo de 2', 'Mismo día'] }
+      { nombre: 'Medio día', precio: 720000, items: ['4 horas', '150 fotos', 'Entrega 72h'] },
+      { nombre: 'Día completo', precio: 1260000, items: ['8 horas', '300 fotos', 'Entrega 72h', 'Asistente'] },
+      { nombre: 'Corporativo Premium', precio: 1980000, items: ['Cobertura + video', 'Equipo de 2', 'Mismo día'] }
     ],
     producto: [
-      { nombre: 'Pack 5', precio: 350, items: ['5 productos', 'Fondo blanco', '24h entrega'] },
-      { nombre: 'Pack 15', precio: 750, items: ['15 productos', 'Fondo + lifestyle', '48h entrega'] },
-      { nombre: 'Pack 30', precio: 1200, items: ['30 productos', 'Estilo a medida', 'Archivos PSD'] }
+      { nombre: 'Pack 5', precio: 315000, items: ['5 productos', 'Fondo blanco', '24h entrega'] },
+      { nombre: 'Pack 15', precio: 675000, items: ['15 productos', 'Fondo + lifestyle', '48h entrega'] },
+      { nombre: 'Pack 30', precio: 1080000, items: ['30 productos', 'Estilo a medida', 'Archivos PSD'] }
     ],
     familia: [
-      { nombre: 'Mini', precio: 180, items: ['30 min', '10 fotos', 'Galería digital'] },
-      { nombre: 'Clásica', precio: 320, items: ['1h', '15 fotos', 'Impresión 20x30'] },
-      { nombre: 'Extendida', precio: 480, items: ['2h', '25 fotos', 'Álbum + impresión'] }
+      { nombre: 'Mini', precio: 162000, items: ['30 min', '10 fotos', 'Galería digital'] },
+      { nombre: 'Clásica', precio: 288000, items: ['1h', '15 fotos', 'Impresión 20x30'] },
+      { nombre: 'Extendida', precio: 432000, items: ['2h', '25 fotos', 'Álbum + impresión'] }
     ],
     maternidad: [
-      { nombre: 'Esencial', precio: 280, items: ['1h estudio', '12 fotos', 'Vestuario 2 cambios'] },
-      { nombre: 'Premium', precio: 450, items: ['1.5h estudio', '20 fotos', 'Vestuario 3 cambios', 'Pareja incluida'] },
-      { nombre: 'Hogar', precio: 520, items: ['2h en tu hogar', '25 fotos', 'Estilo lifestyle'] }
+      { nombre: 'Esencial', precio: 252000, items: ['1h estudio', '12 fotos', 'Vestuario 2 cambios'] },
+      { nombre: 'Premium', precio: 405000, items: ['1.5h estudio', '20 fotos', 'Vestuario 3 cambios', 'Pareja incluida'] },
+      { nombre: 'Hogar', precio: 468000, items: ['2h en tu hogar', '25 fotos', 'Estilo lifestyle'] }
     ]
   };
 
   const clases = [
-    { id: 'c1', nombre: 'Fotografía Básica', dia: 'Lunes',     hora: '18:00', duracion: '2h', precio: 80,  cupos: 8,  nivel: 'Inicial' },
-    { id: 'c2', nombre: 'Iluminación',       dia: 'Miércoles', hora: '19:00', duracion: '2h', precio: 95,  cupos: 8,  nivel: 'Intermedio' },
-    { id: 'c3', nombre: 'Photoshop',         dia: 'Viernes',   hora: '17:00', duracion: '2h', precio: 95,  cupos: 6,  nivel: 'Intermedio' },
-    { id: 'c4', nombre: 'Edición Lightroom', dia: 'Sábado',    hora: '10:00', duracion: '3h', precio: 120, cupos: 6,  nivel: 'Inicial' },
-    { id: 'c5', nombre: 'Retrato Artístico', dia: 'Sábado',    hora: '16:00', duracion: '3h', precio: 140, cupos: 6,  nivel: 'Avanzado' },
-    { id: 'c6', nombre: 'Fotografía Digital', dia: 'Domingo',  hora: '10:00', duracion: '2h', precio: 85,  cupos: 8,  nivel: 'Inicial' }
+    { id: 'c1', nombre: 'Fotografía Básica', dia: 'Lunes',     hora: '18:00', duracion: '2h', precio: 72000,  cupos: 8,  nivel: 'Inicial' },
+    { id: 'c2', nombre: 'Iluminación',       dia: 'Miércoles', hora: '19:00', duracion: '2h', precio: 85500,  cupos: 8,  nivel: 'Intermedio' },
+    { id: 'c3', nombre: 'Photoshop',         dia: 'Viernes',   hora: '17:00', duracion: '2h', precio: 85500,  cupos: 6,  nivel: 'Intermedio' },
+    { id: 'c4', nombre: 'Edición Lightroom', dia: 'Sábado',    hora: '10:00', duracion: '3h', precio: 108000, cupos: 6,  nivel: 'Inicial' },
+    { id: 'c5', nombre: 'Retrato Artístico', dia: 'Sábado',    hora: '16:00', duracion: '3h', precio: 126000, cupos: 6,  nivel: 'Avanzado' },
+    { id: 'c6', nombre: 'Fotografía Digital', dia: 'Domingo',  hora: '10:00', duracion: '2h', precio: 76500,  cupos: 8,  nivel: 'Inicial' }
   ];
 
   const galeria = [

@@ -572,3 +572,15 @@ select.input {
   background: var(--gold);
   transition: width 0.4s ease;
 }
+/* Contact columns adapt without squeezing the form on small screens. */
+.contact-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3rem; align-items: start; }
+.contact-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin-bottom: 1rem; }
+.contact-grid > *, .contact-fields > * { min-width: 0; }
+.contact-grid a { overflow-wrap: anywhere; }
+@media (max-width: 767px) { .contact-grid, .contact-fields { grid-template-columns: minmax(0, 1fr); } .contact-grid { gap: 1.5rem; } }
+
+.about-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4rem; align-items: center; }
+.about-grid > * { min-width: 0; }
+h1, h2 { overflow-wrap: anywhere; }
+@media (max-width: 767px) { .about-grid { grid-template-columns: minmax(0, 1fr); gap: 2rem; } }
+@media (max-width: 399px) { #navbar-slot .nav-register { display: none; } }

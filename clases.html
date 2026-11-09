@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es-CL">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -126,7 +126,7 @@
         <td>${escapeHTML(c.nombre)}</td>
         <td><span style="background:var(--soft);padding:0.25rem 0.7rem;border-radius:9999px;font-size:0.75rem;color:var(--hi);">${escapeHTML(c.nivel)}</span></td>
         <td>${c.cupos} disp.</td>
-        <td><strong style="color:var(--gold);">$${c.precio}</strong></td>
+        <td><strong style="color:var(--gold);">${window.PHOTO_UI.formatMoney(c.precio)}</strong></td>
         <td><button class="btn-primary inscribir" data-clase="${c.id}" style="padding:0.45rem 1rem;font-size:0.8rem;">Inscribirse</button></td>
       </tr>
     `).join('');
@@ -148,7 +148,7 @@
         <div style="display:flex;justify-content:space-between;align-items:center;">
           <div>
             <span style="color:var(--mut);font-size:0.8rem;">Precio</span>
-            <div style="color:var(--gold);font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:600;">$${c.precio}</div>
+            <div style="color:var(--gold);font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:600;">${window.PHOTO_UI.formatMoney(c.precio)}</div>
           </div>
           <button class="btn-primary inscribir" data-clase="${c.id}" style="padding:0.5rem 1.1rem;font-size:0.85rem;">Inscribirse</button>
         </div>
@@ -181,7 +181,7 @@
         <div style="background:var(--soft);border-radius:0.5rem;padding:1rem;margin-bottom:1.25rem;">
           <div style="display:flex;justify-content:space-between;color:var(--hi);margin-bottom:0.5rem;font-size:0.9rem;"><span>Nivel</span><strong>${escapeHTML(c.nivel)}</strong></div>
           <div style="display:flex;justify-content:space-between;color:var(--hi);margin-bottom:0.5rem;font-size:0.9rem;"><span>Cupos disponibles</span><strong>${c.cupos}</strong></div>
-          <div style="display:flex;justify-content:space-between;color:var(--hi);font-size:0.95rem;padding-top:0.5rem;border-top:1px solid var(--line);"><span>Total</span><strong style="color:var(--gold);font-size:1.2rem;">$${c.precio}</strong></div>
+          <div style="display:flex;justify-content:space-between;color:var(--hi);font-size:0.95rem;padding-top:0.5rem;border-top:1px solid var(--line);"><span>Total</span><strong style="color:var(--gold);font-size:1.2rem;">${window.PHOTO_UI.formatMoney(c.precio)}</strong></div>
         </div>
         <p style="color:var(--mut);font-size:0.85rem;text-align:center;line-height:1.5;">Al inscribirte se generará una reserva con pago pendiente. Podrás pagar desde tu perfil.</p>
       `;

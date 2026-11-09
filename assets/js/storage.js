@@ -6,9 +6,9 @@
 window.PHOTO_STORE = (function () {
 
   const KEYS = {
-    USERS:   'photoStudio_users',
-    SESSION: 'photoStudio_currentUser',
-    RESERVAS:'photoStudio_reservas'
+    USERS:   'photoStudio_users_clp_v1',
+    SESSION: 'photoStudio_currentUser_clp_v1',
+    RESERVAS:'photoStudio_reservas_clp_v1'
   };
 
   // --------- Utilidades internas ---------

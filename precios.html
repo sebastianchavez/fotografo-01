@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es-CL">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -108,7 +108,7 @@
           ${p.featured ? '' : ''}
           <h3 class="font-display" style="font-size:1.6rem;color:var(--hi);margin-bottom:0.5rem;font-weight:500;">${escapeHTML(p.nombre)}</h3>
           <div style="display:flex;align-items:baseline;gap:0.5rem;margin-bottom:1.5rem;">
-            <span style="color:var(--gold);font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:600;">$${p.precio}</span>
+            <span style="color:var(--gold);font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:600;">${window.PHOTO_UI.formatMoney(p.precio)}</span>
             <span style="color:var(--mut);font-size:0.85rem;">total</span>
           </div>
           <div style="height:1px;background:var(--line);margin:1.25rem 0;"></div>

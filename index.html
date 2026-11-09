@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es-CL">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -97,7 +97,7 @@
 
 <!-- SOBRE MÍ -->
 <section class="section" style="background:linear-gradient(180deg,#0a0a0d 0%,#0b0b0c 100%);">
-  <div class="container-narrow" style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;">
+  <div class="container-narrow about-grid">
     <div class="reveal" style="position:relative;">
       <div style="position:absolute;inset:-1rem -1rem 1rem 1rem;border:1px solid var(--gold);border-radius:0.8rem;opacity:0.3;"></div>
       <img src="assets/img/hero.jpg"
@@ -196,7 +196,7 @@
           <h3 class="font-display" style="font-size:1.4rem;color:var(--hi);margin-bottom:0.5rem;font-weight:500;">${escapeHTML(s.nombre)}</h3>
           <p style="color:var(--mut);font-size:0.9rem;line-height:1.5;margin-bottom:1rem;">${escapeHTML(s.descripcion)}</p>
           <div style="display:flex;justify-content:space-between;align-items:center;">
-            <span style="color:var(--gold);font-weight:600;">Desde $${s.desde}</span>
+            <span style="color:var(--gold);font-weight:600;">Desde ${window.PHOTO_UI.formatMoney(s.desde)}</span>
             <span style="color:var(--mut);font-size:0.85rem;">Ver más →</span>
           </div>
         </div>
